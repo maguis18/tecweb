@@ -14,3 +14,6 @@ Repositorio de Tecnologias Web
 
 :paperclip: ## **Periodo**
 >  Primavera 2025
+
+:paperclip: ## **Breve descripción**
+> Este repositorio servirá para almacenar y entregar todas nuestras practicas del curso de Tecnologías Web.
