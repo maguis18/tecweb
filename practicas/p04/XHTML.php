@@ -116,5 +116,27 @@
         unset($c);
         unset($z);
     ?>
+
+<h2>Ejercicio 4</h2>
+    <p>Lee y muestra los valores de las variables del ejercicio anterior, pero ahora con la ayuda de la matriz $GLOBALS o del modificador global de PHP.</p>
+    <?php
+    $a = "PHP5";
+    $z[] = &$a;
+    $b = "5a version de PHP";
+    @$c = $b*10;
+    $a .= $b;
+    @$b *= $c;
+    $z[0] = "MySQL";
+    echo '<h4>Respuesta:</h4>'; 
+    echo "a = " . $GLOBALS['a'] . "<br>";
+    echo "b = " . $GLOBALS['b'] . "<br>";
+    echo "c = " . $GLOBALS['c'] . "<br>";
+    echo"z = ";
+    var_dump($GLOBALS['z']);
+    unset($a);
+    unset($b);
+    unset($c);
+    unset($z);
+    ?>
 </body>
 </html>
