@@ -39,11 +39,12 @@
 
 <h2>Ejercicio 2</h2>
     <p>Proporcionar los valores de $a, $b, $c como sigue:</p>
-    <p>
-    $a = "ManejadorSQL";
-    $b = 'MySQL';
-    $c = &$a;
-    </p>
+    <ul>
+    
+    <li>$a = "ManejadorSQL";</li>
+    <li>$b = 'MySQL';</li>
+    <li>$c = &$a;</li>
+    </ul>
     <?php
         $a = "ManejadorSQL";
         $b = 'MySQL';
@@ -78,5 +79,42 @@
         <p>
         Se imprimieron en las variables a, b y c lo mismo , el texto "PHP server" ya que se le asigno a la variable $a el texto de "PHP server" , despues a la variable b se le asigno una referencia a lo que contiene a , y desde un inicio la variable c tenia como valor la referencia a la variable a, por lo que al no reasignarle ningun valor, sigue imprimiendo la referencia al valor de a, que en este punto era el texto "PHP server"</p>   
 
+        <h2>Ejercicio 3</h2>
+    <p>Muestra el contenido de cada variable inmediatamente después de cada asignación,
+    verificar la evolución del tipo de estas variables (imprime todos los componentes de los
+    arreglo):</p>
+    <ul>
+    <li>$a = "PHP5";</li>
+    <li>$z[] = &$a;</li>
+    <li>$b = "5a version de PHP";</li>
+    <li>$c = $b*10;</li>
+    <li>$a .= $b;</li>
+    <li>$b *= $c;</li>
+    <li>$z[0] = “MySQL”;</li>
+    </ul>
+    <?php
+    echo '<h4>Respuesta:</h4>'; 
+        $a = "PHP5";
+        echo "a = $a<br>";
+        $z[] = &$a;
+        echo"z = ";
+        var_dump($z);
+        echo "<br>";
+        $b = "5a version de PHP";
+        echo "b = $b<br>";
+        @$c = $b*10;
+        echo "c = $c<br>";
+        $a .= $b;
+        echo "a = $a<br>";
+        @$b *= $c;
+        echo "b = $b<br>";
+        echo"z = ";
+        $z[0] = "MySQL";
+        var_dump($z);
+        unset($a);
+        unset($b);
+        unset($c);
+        unset($z);
+    ?>
 </body>
 </html>
