@@ -219,5 +219,6 @@
     echo '<li>El idioma del navegador es: ' . $_SERVER['HTTP_ACCEPT_LANGUAGE'] . '</li>';
     echo '</ul>';
     ?>
+
 </body>
 </html>
