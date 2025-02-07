@@ -28,7 +28,7 @@ function secuencia(){
     
         if (!esPar($n1) && esPar($n2) && !esPar($n3)) {
             $total = $i * 3;
-            echo "<H3>R= " . $total . " números obtenidos en " . $iteraciones . " iteraciones.\n</H3>";
+            echo "<H3>R= " . $total . " números obtenidos en " . $i . " iteraciones.\n</H3>";
             break; 
         } else {
             $secuencia[$i] = [$n1, $n2, $n3];
