@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($sexo === "femenino" && $edad >= 18 && $edad <= 35) {
         echo "<p>Bienvenida, usted cumple con los requisitos.</p>";
     } else {
-        echo "<p>Lo sentimos, pero no cumple con los requisitos necesarios.</p>";
+        echo "<p>Lo sentimos, pero usted no cumple con los requisitos necesarios.</p>";
     }
 }
 
