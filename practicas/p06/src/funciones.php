@@ -77,4 +77,77 @@ function abecedario()
     break;
 }
 }
+
+$vehiculos = [
+    "UBN6338" => [
+        "Auto" => ["marca" => "HONDA", "modelo" => 2020, "tipo" => "camioneta"],
+        "Propietario" => ["nombre" => "Alfonzo Esparza", "ciudad" => "Puebla", "direccion" => "C.U., Jardines de San Manuel"]
+    ],
+    "ZPR5673" => [
+        "Auto" => ["marca" => "TOYOTA", "modelo" => 2018, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Laura Jiménez", "ciudad" => "Guadalajara", "direccion" => "Av. Vallarta 2333"]
+    ],
+    "XKD1290" => [
+        "Auto" => ["marca" => "FORD", "modelo" => 2019, "tipo" => "hatchback"],
+        "Propietario" => ["nombre" => "Pedro Martínez", "ciudad" => "Monterrey", "direccion" => "San Pedro 450"]
+    ],
+    "GHT4352" => [
+        "Auto" => ["marca" => "NISSAN", "modelo" => 2017, "tipo" => "camioneta"],
+        "Propietario" => ["nombre" => "Sofía Castellanos", "ciudad" => "México DF", "direccion" => "Insurgentes Sur 1890"]
+    ],
+    "GSR1234" => [
+        "Auto" => ["marca" => "MAZDA", "modelo" => 2021, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Ricardo Díaz", "ciudad" => "Cancún", "direccion" => "Nader 12"]
+    ],
+    "TUV5432" => [
+        "Auto" => ["marca" => "CHEVROLET", "modelo" => 2016, "tipo" => "hatchback"],
+        "Propietario" => ["nombre" => "Mariana Lopez", "ciudad" => "Tijuana", "direccion" => "Zona Rio"]
+    ],
+    "RTY5643" => [
+        "Auto" => ["marca" => "KIA", "modelo" => 2020, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Carlos Salas", "ciudad" => "Morelia", "direccion" => "Camelinas 980"]
+    ],
+    "FGH6789" => [
+        "Auto" => ["marca" => "HYUNDAI", "modelo" => 2019, "tipo" => "camioneta"],
+        "Propietario" => ["nombre" => "Jessica Ortiz", "ciudad" => "Guadalajara", "direccion" => "Revolución 456"]
+    ],
+    "CVB3456" => [
+        "Auto" => ["marca" => "VOLKSWAGEN", "modelo" => 2018, "tipo" => "hatchback"],
+        "Propietario" => ["nombre" => "Miguel Ángel Torres", "ciudad" => "Puebla", "direccion" => "14 Sur 1345"]
+    ],
+    "NMJ2345" => [
+        "Auto" => ["marca" => "AUDI", "modelo" => 2021, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Ana María Sánchez", "ciudad" => "Querétaro", "direccion" => "Tecnológico 100"]
+    ],
+    "JKL4321" => [
+        "Auto" => ["marca" => "BMW", "modelo" => 2022, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Roberto Navarro", "ciudad" => "San Luis Potosí", "direccion" => "Himalaya 234"]
+    ],
+    "OPQ8765" => [
+        "Auto" => ["marca" => "MERCEDES", "modelo" => 2018, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Lucía Méndez", "ciudad" => "León", "direccion" => "Libertad 345"]
+    ],
+    "STU3456" => [
+        "Auto" => ["marca" => "FIAT", "modelo" => 2015, "tipo" => "hatchback"],
+        "Propietario" => ["nombre" => "Oscar Gutiérrez", "ciudad" => "Toluca", "direccion" => "Los Portales 12"]
+    ],
+    "IOP6789" => [
+        "Auto" => ["marca" => "RENAULT", "modelo" => 2016, "tipo" => "sedan"],
+        "Propietario" => ["nombre" => "Fernanda Ramírez", "ciudad" => "Cuernavaca", "direccion" => "Plan de Ayala 321"]
+    ],
+    "ZXV3214" => [
+        "Auto" => ["marca" => "PEUGEOT", "modelo" => 2020, "tipo" => "hatchback"],
+        "Propietario" => ["nombre" => "Julio César", "ciudad" => "Acapulco", "direccion" => "Costera 123"]
+    ]
+];
+
+function buscarPorMatricula($matricula) {
+    global $vehiculos;
+    return $vehiculos[$matricula] ?? false;
+}
+
+function obtenerTodosLosAutos() {
+    global $vehiculos;
+    return $vehiculos;
+}
 ?>
