@@ -62,5 +62,19 @@ function primer_numero_do_while($numero)
     } while(true);
 }
 
-
+function abecedario()
+{
+    $letras=[];
+    for($i=97; $i<123; $i++)
+    {
+        $letras[$i] = chr($i);
+    }
+    $contador = 0;
+    foreach ($letras as $key => $value) {
+    echo '['.$key.'] => '.$value.'<br>';
+    $contador++;
+    if ($contador >25)
+    break;
+}
+}
 ?>
