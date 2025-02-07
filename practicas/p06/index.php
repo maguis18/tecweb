@@ -131,8 +131,9 @@ foreach ($arreglo as $key => $value) {
         print_r($resultado);
         echo "</pre>";
     } elseif (!$resultado && $_SERVER["REQUEST_METHOD"] == "POST") {
-        echo "<p>No se encontraron resultados.</p>";
+        echo "<p>No se encontraron resultados referentes a esa matricula.</p>";
     }
     ?>
+
 </body>
 </html>
