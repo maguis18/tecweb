@@ -80,20 +80,20 @@ function abecedario()
 
 $vehiculos = [
     "UBN6338" => [
-        "Auto" => ["marca" => "HONDA", "modelo" => 2020, "tipo" => "camioneta"],
+        "Auto" => ["marca" => "FIAT", "modelo" => 2020, "tipo" => "camioneta"],
         "Propietario" => ["nombre" => "Alfonzo Esparza", "ciudad" => "Puebla", "direccion" => "C.U., Jardines de San Manuel"]
     ],
     "ZPR5673" => [
         "Auto" => ["marca" => "TOYOTA", "modelo" => 2018, "tipo" => "sedan"],
-        "Propietario" => ["nombre" => "Laura Jiménez", "ciudad" => "Guadalajara", "direccion" => "Av. Vallarta 2333"]
+        "Propietario" => ["nombre" => "Maria Lopez", "ciudad" => "Puebla", "direccion" => "Calle Rio Verde 2333"]
     ],
     "XKD1290" => [
         "Auto" => ["marca" => "FORD", "modelo" => 2019, "tipo" => "hatchback"],
-        "Propietario" => ["nombre" => "Pedro Martínez", "ciudad" => "Monterrey", "direccion" => "San Pedro 450"]
+        "Propietario" => ["nombre" => "Jose Martínez", "ciudad" => "Monterrey", "direccion" => "San Pedro 450"]
     ],
     "GHT4352" => [
-        "Auto" => ["marca" => "NISSAN", "modelo" => 2017, "tipo" => "camioneta"],
-        "Propietario" => ["nombre" => "Sofía Castellanos", "ciudad" => "México DF", "direccion" => "Insurgentes Sur 1890"]
+        "Auto" => ["marca" => "FIAT", "modelo" => 2017, "tipo" => "camioneta"],
+        "Propietario" => ["nombre" => "Juli Castellanos", "ciudad" => "México DF", "direccion" => "Insurgentes Sur 1890"]
     ],
     "GSR1234" => [
         "Auto" => ["marca" => "MAZDA", "modelo" => 2021, "tipo" => "sedan"],
@@ -101,15 +101,15 @@ $vehiculos = [
     ],
     "TUV5432" => [
         "Auto" => ["marca" => "CHEVROLET", "modelo" => 2016, "tipo" => "hatchback"],
-        "Propietario" => ["nombre" => "Mariana Lopez", "ciudad" => "Tijuana", "direccion" => "Zona Rio"]
+        "Propietario" => ["nombre" => "Carla Lopez", "ciudad" => "Tijuana", "direccion" => "Zona Rio"]
     ],
     "RTY5643" => [
-        "Auto" => ["marca" => "KIA", "modelo" => 2020, "tipo" => "sedan"],
+        "Auto" => ["marca" => "FIAT", "modelo" => 2020, "tipo" => "sedan"],
         "Propietario" => ["nombre" => "Carlos Salas", "ciudad" => "Morelia", "direccion" => "Camelinas 980"]
     ],
     "FGH6789" => [
         "Auto" => ["marca" => "HYUNDAI", "modelo" => 2019, "tipo" => "camioneta"],
-        "Propietario" => ["nombre" => "Jessica Ortiz", "ciudad" => "Guadalajara", "direccion" => "Revolución 456"]
+        "Propietario" => ["nombre" => "Sofia Ortiz", "ciudad" => "Guadalajara", "direccion" => "Revolución 456"]
     ],
     "CVB3456" => [
         "Auto" => ["marca" => "VOLKSWAGEN", "modelo" => 2018, "tipo" => "hatchback"],
