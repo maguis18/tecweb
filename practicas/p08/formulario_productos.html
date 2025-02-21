@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario productos</title>
+    <style type="text/css">
+        ol, ul { 
+        list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registro de productos</h1>
+
+    <p>En este formulario podrás registrar los datos de tu producto </p>
+
+    <form id="formularioProductos" action="http://localhost/tecweb/practicas/p08/concurso2.php" method="post">
+
+    <h2>Información de Participación</h2>
+
+      <fieldset>
+        <legend>Información Personal</legend>
+
+        <ul>
+          <li><label for="form-name">Nombre:</label> <input type="text" name="name" id="form-name"></li>
+          <li><label for="form-marca">Marca:</label> <input type="text" name="marca" id="form-marca"></li>
+            <li><label for="form-modelo">Modelo:</label> <input type="text" name="modelo" id="form-modelo"></li>
+            <li><label for="form-precio">Precio:</label> <input type="text" name="precio" id="form-precio"></li>
+            <li><label for="form-detalles"></label><textarea name="detalles" rows="4" cols="60" id="form-detalles" placeholder="No más de 300 caracteres de longitud"></textarea></li>
+            <li><label for="form-unidades">Unidades:</label> <input type="number" name="unidades" id="form-unidades"></li>
+           <li> <label for="form-image">Imagen del Producto:</label>
+            <input type="file" name="imagen" id="form-image" accept="image/*"></li>
+        </ul>
+      </fieldset>
+
+</body>
+</html>
