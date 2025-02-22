@@ -37,20 +37,19 @@ if ($result->num_rows > 0) {
     if ($_FILES['imagen']['error'] == 0) {
         $imagen = $_FILES['imagen']['name'];
         $imagen_tmp = $_FILES['imagen']['tmp_name'];
-        $target_dir = "../p07/img/";
 
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true);
+        if (!is_dir("img/")) {
+            mkdir("img/", 0777, true);
         }
 
-        if (!move_uploaded_file($imagen_tmp, $target_dir . $imagen)) {
+        if (!move_uploaded_file($imagen_tmp, "img/" . $imagen)) {
             echo "<p>Hubo un error al subir la imagen. El producto no pudo ser insertado.</p>";
             echo '</body></html>';
             exit; 
         }
     }
 
-    $sql = "INSERT INTO productos (nombre, marca, modelo, precio, detalles, unidades, imagen) VALUES ('$nombre', '$marca', '$modelo', '$precio', '$detalles', '$unidades', '../p07/img/$imagen')";
+    $sql = "INSERT INTO productos (nombre, marca, modelo, precio, detalles, unidades, imagen) VALUES ('$nombre', '$marca', '$modelo', '$precio', '$detalles', '$unidades', 'img/$imagen')";
     if ($link->query($sql) === TRUE) {
         echo '<h1>Producto Insertado Correctamente</h1>';
         echo "<p>Estos son los datos registrados:</p>";
@@ -62,7 +61,7 @@ if ($result->num_rows > 0) {
         echo "<li><strong>Detalles:</strong> $detalles</li>";
         echo "<li><strong>Unidades:</strong> $unidades</li>";
         if (!empty($imagen)) {
-            echo "<li><strong>Imagen:</strong><br> <img src='../p07/img/$imagen' alt='Imagen del producto'></li>";
+            echo "<li><strong>Imagen:</strong><br> <img src='img/$imagen' alt='Imagen del producto'></li>";
         }
         echo "</ul>";
     } else {
