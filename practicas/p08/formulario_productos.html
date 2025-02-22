@@ -15,7 +15,7 @@
 
     <p>En este formulario podrás registrar los datos de tu producto </p>
 
-    <form id="formularioProductos" action="http://localhost/tecweb/practicas/p08/concurso2.php" method="post">
+    <form id="formularioProductos" action="http://localhost/tecweb/practicas/p08/set_productos_v2.php" method="post" enctype="multipart/form-data">
 
     <h2>Información de Participación</h2>
 
@@ -27,12 +27,15 @@
           <li><label for="form-marca">Marca:</label> <input type="text" name="marca" id="form-marca"></li>
             <li><label for="form-modelo">Modelo:</label> <input type="text" name="modelo" id="form-modelo"></li>
             <li><label for="form-precio">Precio:</label> <input type="text" name="precio" id="form-precio"></li>
-            <li><label for="form-detalles"></label><textarea name="detalles" rows="4" cols="60" id="form-detalles" placeholder="No más de 300 caracteres de longitud"></textarea></li>
+            <li><label for="form-detalles">Ingresa los detalles de tu producto</label><br><textarea name="detalles" rows="4" cols="60" id="form-detalles" placeholder="No más de 300 caracteres de longitud"></textarea></li>
             <li><label for="form-unidades">Unidades:</label> <input type="number" name="unidades" id="form-unidades"></li>
            <li> <label for="form-image">Imagen del Producto:</label>
             <input type="file" name="imagen" id="form-image" accept="image/*"></li>
         </ul>
       </fieldset>
-
+      <p>
+        <input type="submit" value="¡Producto registrado!">
+        <input type="reset">
+      </p>
 </body>
 </html>
