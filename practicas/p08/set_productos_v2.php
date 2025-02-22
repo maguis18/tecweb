@@ -1,42 +1,75 @@
 <?php
-
-$nombre = 'nombre_producto';
-$marca  = 'marca_producto';
-$modelo = 'modelo_producto';
-$precio = 1.0;
-$detalles = 'detalles_producto';
-$unidades = 1;
-$imagen   = 'img/imagen.png';
-
 // Crear objeto de conexión
-@$link = new mysqli('localhost', 'root', '12345678a', 'marketzone');
+$link = new mysqli('localhost', 'root', 'gatin_123', 'marketzone');
 
 // Comprobar la conexión
 if ($link->connect_errno) {
-    die('Falló la conexión: '.$link->connect_error.'<br/>');
+    die('Falló la conexión: ' . $link->connect_error . '<br/>');
 }
 
-$stmt = $link->prepare("SELECT * FROM productos WHERE nombre = ? AND marca = ? AND modelo = ?");
-$stmt->bind_param("sss", $nombre, $marca, $modelo);
-$stmt->execute();
-$result = $stmt->get_result();
+$nombre = $_POST['name'];
+$marca = $_POST['marca'];
+$modelo = $_POST['modelo'];
+$precio = $_POST['precio'];
+$detalles = $_POST['detalles'];
+$unidades = $_POST['unidades'];
+
+$sql_verif = "SELECT * FROM productos WHERE nombre = '$nombre' OR marca = '$marca' OR modelo = '$modelo'";
+$result = $link->query($sql_verif);
+
+echo '<?xml version="1.0" encoding="UTF-8"?>';
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+echo '<html xmlns="http://www.w3.org/1999/xhtml">';
+echo '<head><title>Resultado del Registro de Producto</title>';
+echo '<style type="text/css">';
+echo 'body { background-color: rgba(156, 247, 250, 0.71); font-family: Open Sans, sans-serif; }'; // Color de fondo aplicado globalmente
+echo 'h1 { color: rgb(37, 190, 246); border-bottom: 1px solid rgb(0, 0, 0); }'; // Estilos de título
+echo 'li { margin: 10px; }';
+echo 'img { margin: 10px; width: 200px; height: 200px; }';
+echo '</style>';
+echo '</head>';
+echo '<body>';
 
 if ($result->num_rows > 0) {
-    echo "El producto con ese nombre, marca y modelo ya existe.";
+    echo "<h1>El producto ya está registrado</h1>";
+    echo "<p>El producto con ese nombre, marca o modelo ya existe en la base de datos.</p>";
 } else {
-    $sql = "INSERT INTO productos (nombre, marca, modelo, precio, detalles, unidades, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $insert_stmt = $link->prepare($sql);
-    $insert_stmt->bind_param("sssdssi", $nombre, $marca, $modelo, $precio, $detalles, $unidades, $imagen);
-    
-    if ($insert_stmt->execute()) {
-        echo 'Producto insertado correctamente';
-    } else {
-        echo 'El Producto no pudo ser insertado';
+    if ($_FILES['imagen']['error'] == 0) {
+        $imagen = $_FILES['imagen']['name'];
+        $imagen_tmp = $_FILES['imagen']['tmp_name'];
+        $target_dir = "../p07/img/";
+
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
+        if (!move_uploaded_file($imagen_tmp, $target_dir . $imagen)) {
+            echo "<p>Hubo un error al subir la imagen. El producto no pudo ser insertado.</p>";
+            echo '</body></html>';
+            exit; 
+        }
     }
 
-    $insert_stmt->close();
+    $sql = "INSERT INTO productos (nombre, marca, modelo, precio, detalles, unidades, imagen) VALUES ('$nombre', '$marca', '$modelo', '$precio', '$detalles', '$unidades', '../p07/img/$imagen')";
+    if ($link->query($sql) === TRUE) {
+        echo '<h1>Producto Insertado Correctamente</h1>';
+        echo "<p>Estos son los datos registrados:</p>";
+        echo "<ul>";
+        echo "<li><strong>Nombre:</strong> $nombre</li>";
+        echo "<li><strong>Marca:</strong> $marca</li>";
+        echo "<li><strong>Modelo:</strong> $modelo</li>";
+        echo "<li><strong>Precio:</strong> $precio</li>";
+        echo "<li><strong>Detalles:</strong> $detalles</li>";
+        echo "<li><strong>Unidades:</strong> $unidades</li>";
+        if (!empty($imagen)) {
+            echo "<li><strong>Imagen:</strong><br> <img src='../p07/img/$imagen' alt='Imagen del producto'></li>";
+        }
+        echo "</ul>";
+    } else {
+        echo "<p>Error al registrar el producto: " . $link->error . "</p>";
+    }
 }
 
-$stmt->close();
+echo '</body></html>';
 $link->close();
 ?>
