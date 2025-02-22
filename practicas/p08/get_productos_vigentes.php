@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 </head>
 <body>
-    <h3>PRODUCTOS NO ELIMINADOS</h3>
+    <h3>PRODUCTOS VIGENTES</h3>
     <br/>
     <?php
         $link = new mysqli('localhost', 'root', 'gatin_123', 'marketzone');
