@@ -43,7 +43,7 @@
     
     <li>$a = "ManejadorSQL";</li>
     <li>$b = 'MySQL';</li>
-    <li>$c = &$a;</li>
+    <li>$c = &amp;$a;</li>
     </ul>
     <?php
         $a = "ManejadorSQL";
@@ -85,7 +85,7 @@
     arreglo):</p>
     <ul>
     <li>$a = "PHP5";</li>
-    <li>$z[] = &$a;</li>
+    <li>$z[] = &amp;$a;</li>
     <li>$b = "5a version de PHP";</li>
     <li>$c = $b*10;</li>
     <li>$a .= $b;</li>
@@ -165,8 +165,8 @@
 
 <h2>Ejercicio 6</h2>
     <p>Dar y comprobar el valor booleano de las variables $a, $b, $c, $d, $e y $f y muéstralas
-    usando la función var_dump(<datos>).</p>
-    <p>Después investiga una función de PHP que permita transformar el valor booleano de $c y $e en uno que se pueda mostrar con un echo:
+    usando la función var_dump(&lt;datos&gt;).</p>
+    <p>Después investiga una función de PHP que permita transformar el valor booleano de $c y $e en uno que se pueda mostrar con un echo:</p>
     <ul>
     <li>$a = “0”;</li>
     <li>$b = “TRUE”;</li>
@@ -219,6 +219,11 @@
     echo '<li>El idioma del navegador es: ' . $_SERVER['HTTP_ACCEPT_LANGUAGE'] . '</li>';
     echo '</ul>';
     ?>
-
+<div>
+<p>
+    <a href="https://validator.w3.org/markup/check?uri=referer"><img
+    src="https://www.w3.org/Icons/valid-xhtml11" alt="Valid XHTML 1.1" height="31" width="88" /></a>
+    </p>
+</div>
 </body>
 </html>
