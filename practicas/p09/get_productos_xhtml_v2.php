@@ -40,6 +40,7 @@
             echo '<th scope="col">Unidades</th>';
             echo '<th scope="col">Detalles</th>';
             echo '<th scope="col">Imagen</th>';
+            echo '<th scope="col">Editar</th>';
             echo '</tr>';
             echo '</thead>';
             echo '<tbody>';
@@ -53,7 +54,7 @@
                 echo '<td>' . $row['unidades'] . '</td>';
                 echo '<td>' . utf8_encode($row['detalles']) . '</td>';
                 echo '<td><img src="' . $row['imagen'] . '" alt="Producto" style="width: 100px;"></td>';
-                echo '<td><a href="formulario_productos_v2.php?id=' . $row['id'] . '" class="btn btn-primary">Editar</a></td>'; 
+                echo '<td><a href="formulario_productos_v2.php?id=' . $row['id'] . '" class="btn btn-success">Editar</a></td>'; 
                 echo '</tr>';
             }
             echo '</tbody>';

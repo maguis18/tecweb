@@ -82,13 +82,11 @@ if (isset($_GET['id'])) {
         <fieldset>
     <legend>Información del Producto</legend>
 
-    <!-- Campo Nombre -->
     <label for="form-name">Nombre:</label>
     <input type="text" id="form-name" required maxlength="100" placeholder="Max 100 caracteres" name="name" value="<?php echo isset($productData) ? $productData['nombre'] : ''; ?>">
     <span id="error-name" class="error"></span>
     <br>
 
-    <!-- Campo Marca -->
     <label for="form-marca">Marca:</label>
     <select id="form-marca" name="marca" required>
         <option value="">Seleccionar</option>
@@ -102,34 +100,33 @@ if (isset($_GET['id'])) {
     <span id="error-marca" class="error"></span>
     <br>
 
-    <!-- Campo Modelo -->
     <label for="form-modelo">Modelo:</label>
     <input type="text" id="form-modelo" required maxlength="25" pattern="[A-Za-z0-9]+" placeholder="Max 25 caracteres alfanuméricos" name="modelo" value="<?php echo isset($productData) ? $productData['modelo'] : ''; ?>">
     <span id="error-modelo" class="error"></span>
     <br>
 
-    <!-- Campo Precio -->
     <label for="form-precio">Precio:</label>
     <input type="number" id="form-precio" name="precio" required min="99.9" placeholder="Mayor a 99.9" step="0.01" value="<?php echo isset($productData) ? $productData['precio'] : ''; ?>">
     <span id="error-precio" class="error"></span>
     <br>
 
-    <!-- Campo Detalles -->
     <label for="form-detalles">Detalles:</label>
     <textarea id="form-detalles" rows="4" cols="50" maxlength="250" placeholder="Max 250 caracteres" name="detalles"><?php echo isset($productData) ? $productData['detalles'] : ''; ?></textarea>
     <span id="error-detalles" class="error"></span>
     <br>
 
-    <!-- Campo Unidades -->
     <label for="form-unidades">Unidades:</label>
     <input type="number" id="form-unidades" required min="0" placeholder="No negativos" name="unidades" value="<?php echo isset($productData) ? $productData['unidades'] : ''; ?>">
     <span id="error-unidades" class="error"></span>
     <br>
 
-    <!-- Campo Imagen (Nota: No es posible precargar un archivo para subida debido a restricciones de seguridad del navegador) -->
-    <label for="form-image">Imagen del Producto:</label>
-    <input type="file" name="imagen" id="form-image" accept="image/*">
-    <br>
+    <label for="form-image">Imagen Actual del Producto:</label>
+            <?php if (isset($productData['imagen']) && !empty($productData['imagen'])): ?>
+                <img src="<?= htmlspecialchars($productData['imagen']) ?>" alt="Imagen Actual" style="width: 100px;"><br>
+            <?php endif; ?>
+            <label for="form-image">Cambiar Imagen del Producto:</label>
+            <input type="file" name="imagen" id="form-image" accept="image/*">
+            <br>
 
     <button type="submit">Registrar Producto</button>
     <button type="reset">Reiniciar Formulario</button>
