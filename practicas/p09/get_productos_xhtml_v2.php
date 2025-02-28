@@ -53,6 +53,7 @@
                 echo '<td>' . $row['unidades'] . '</td>';
                 echo '<td>' . utf8_encode($row['detalles']) . '</td>';
                 echo '<td><img src="' . $row['imagen'] . '" alt="Producto" style="width: 100px;"></td>';
+                echo '<td><a href="formulario_productos_v2.php?id=' . $row['id'] . '" class="btn btn-primary">Editar</a></td>'; 
                 echo '</tr>';
             }
             echo '</tbody>';
