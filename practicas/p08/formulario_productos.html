@@ -14,6 +14,48 @@
             margin-bottom: 10px;
         }
     </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('formularioProductos').addEventListener('submit', function(event) {
+          event.preventDefault();//previene errores de validación
+          const errors = document.querySelectorAll('.error');
+          errors.forEach(error => { error.textContent = ''; });
+          
+          const nombre = document.getElementById('form-name');
+          const marca = document.getElementById('form-marca');
+          const modelo = document.getElementById('form-modelo');
+          const precio = document.getElementById('form-precio');
+          const detalles = document.getElementById('form-detalles');
+          const unidades = document.getElementById('form-unidades');
+
+          //Funcion de la api de validación
+          if (!nombre.checkValidity()) {
+              document.getElementById('error-name').textContent = 'Nombre obligatorio, máximo 100 caracteres.';
+          }
+
+          if (!marca.checkValidity()) {
+              document.getElementById('error-marca').textContent = 'Selecciona una marca.';
+          }
+
+          if (!modelo.checkValidity()) {
+              document.getElementById('error-modelo').textContent = 'Modelo obligatorio, máximo 25 caracteres alfanumericos.';
+          }
+
+          if (!precio.checkValidity()) {
+              document.getElementById('error-precio').textContent = 'Precio obligatorio, debe ser mayor a 99.9.';
+          }
+
+          if (!unidades.checkValidity()) {
+              document.getElementById('error-unidades').textContent = 'Unidades obligatorias, no pueden ser negativas.';
+          }
+
+          // If all are valid, form can be submitted
+          if (this.querySelectorAll(':invalid').length === 0) {
+              this.submit();
+          }
+      });
+  });
+  </script>
 </head>
 <body>
     <h1>Registro de productos</h1>
@@ -64,45 +106,6 @@
         </fieldset>
     </form>
 
-    <script>
-        document.getElementById('formularioProductos').addEventListener('submit', function(event) {
-            event.preventDefault();//previene errores de validación
-            const errors = document.querySelectorAll('.error');
-            errors.forEach(error => { error.textContent = ''; });
-            
-            const nombre = document.getElementById('form-name');
-            const marca = document.getElementById('form-marca');
-            const modelo = document.getElementById('form-modelo');
-            const precio = document.getElementById('form-precio');
-            const detalles = document.getElementById('form-detalles');
-            const unidades = document.getElementById('form-unidades');
-
-            //Funcion de la api de validación
-            if (!nombre.checkValidity()) {
-                document.getElementById('error-name').textContent = 'Nombre obligatorio, máximo 100 caracteres.';
-            }
-
-            if (!marca.checkValidity()) {
-                document.getElementById('error-marca').textContent = 'Selecciona una marca.';
-            }
-
-            if (!modelo.checkValidity()) {
-                document.getElementById('error-modelo').textContent = 'Modelo obligatorio, máximo 25 caracteres alfanumericos.';
-            }
-
-            if (!precio.checkValidity()) {
-                document.getElementById('error-precio').textContent = 'Precio obligatorio, debe ser mayor a 99.9.';
-            }
-
-            if (!unidades.checkValidity()) {
-                document.getElementById('error-unidades').textContent = 'Unidades obligatorias, no pueden ser negativas.';
-            }
-
-            // If all are valid, form can be submitted
-            if (this.querySelectorAll(':invalid').length === 0) {
-                this.submit();
-            }
-        });
-    </script>
+    
 </body>
 </html>
