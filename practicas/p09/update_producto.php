@@ -1,38 +1,49 @@
 <?php
-/* MySQL Conexion */
 $link = mysqli_connect("localhost", "root", "gatin_123", "marketzone");
 
-// Chequea conexión
-if($link === false){
-    die("ERROR: No pudo conectarse con la DB. " . mysqli_connect_error());
+if (!$link) {
+    die("Error de conexión: " . mysqli_connect_error());
 }
 
-// Obtener datos del formulario
-$id = $_POST['id'];
-$nombre = $_POST['nombre'];
-$marca = $_POST['marca'];
-$modelo = $_POST['modelo'];
-$precio = $_POST['precio'];
-$unidades = $_POST['unidades'];
-$detalles = $_POST['detalles'];
-$imagen = $_POST['imagen'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $marca = $_POST['marca'];
+    $modelo = $_POST['modelo'];
+    $precio = $_POST['precio'];
+    $unidades = $_POST['unidades'];
+    $detalles = $_POST['detalles'];
 
-// Actualizar el producto en la base de datos
-$sql = "UPDATE productos SET nombre='$nombre', marca='$marca', modelo='$modelo', precio='$precio', unidades='$unidades', detalles='$detalles', imagen='$imagen' WHERE id='$id'";
+    // Obtener la imagen actual
+    $result = mysqli_query($link, "SELECT imagen FROM productos WHERE id = $id");
+    $row = mysqli_fetch_assoc($result);
+    $imagen = $row['imagen'];
 
-if(mysqli_query($link, $sql)){
-    echo "El producto ha sido editado correctamente.";
-} else {
-    echo "ERROR: No se ejecutó $sql. " . mysqli_error($link);
+    // Si se sube una nueva imagen, actualizar la ruta
+    if (!empty($_FILES['imagen']['name'])) {
+        $imagen = 'uploads/' . $_FILES['imagen']['name'];
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $imagen);
+    }
+
+    // Actualizar en la BD
+    $sql = "UPDATE productos SET 
+            nombre='$nombre', 
+            marca='$marca', 
+            modelo='$modelo', 
+            precio=$precio, 
+            unidades=$unidades, 
+            detalles='$detalles', 
+            imagen='$imagen' 
+            WHERE id=$id";
+
+    if (mysqli_query($link, $sql)) {
+        echo "Producto actualizado correctamente.<br>";
+        echo '<a href="get_productos_xhtml_v2.php">Ver productos con unidades menor o igual al tope</a><br>';
+        echo '<a href="get_productos_vigentes_v2.php">Ver productos vigentes</a>';
+    } else {
+        echo "Error al actualizar el producto: " . mysqli_error($link);
+    }
 }
 
-// Cierra la conexión
 mysqli_close($link);
 ?>
-
-<p>
-    <a href="get_producto_xhtml_v2.php">Ver productos con unidades ≤ tope</a>
-</p>
-<p>
-    <a href="get_productos_vigentes_v2.php">Ver productos vigentes</a>
-</p>
