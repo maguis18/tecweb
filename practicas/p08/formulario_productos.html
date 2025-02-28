@@ -3,39 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario productos</title>
-    <style type="text/css">
-        ol, ul { 
-        list-style-type: none;
+    <title>Formulario de Productos</title>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        input, select, textarea {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Registro de productos</h1>
+    <p>En este formulario podrás registrar los datos de tu producto.</p>
+    <form id="formularioProductos" novalidate action="http://localhost/tecweb/practicas/p08/set_productos_v2.php" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Información del Producto</legend>
+            <label for="form-name">Nombre:</label>
+            <input type="text" id="form-name" required maxlength="100" placeholder="Max 100 caracteres" name="name">
+            <span id="error-name" class="error"></span>
+            <br>
+            <label for="form-marca" >Marca:</label>
+            <select id="form-marca" name="marca" required>
+                <option value="">Seleccionar</option>
+                <option value="Sylvanian Families">Sylvanian Families</option>
+                <option value="Honey Bee">Honey Bee</option>
+                <option value="Calico critters">Calico critters</option>
+                <option value="Chafarines">Chafarines</option>
+                <option value="Epoch">Epoch</option>
+                <option value="otra">Otra</option>
+            </select>
+            <span id="error-marca" class="error"></span>
+            <br>
+            <label for="form-modelo">Modelo:</label>
+            <input type="text" id="form-modelo" required maxlength="25" placeholder="Max 25 caracteres alfanuméricos"pattern="[A-Za-z0-9]+" name="modelo">
+            <span id="error-modelo" class="error"></span>
 
-    <p>En este formulario podrás registrar los datos de tu producto </p>
+            <br>
+            <label for="form-precio">Precio:</label>
+            <input type="number" id="form-precio" name="precio" required min="99.9" placeholder="Mayor a 99.9" step="0.01">
+            <span id="error-precio" class="error"></span>
 
-    <form id="formularioProductos" action="http://localhost/tecweb/practicas/p08/set_productos_v2.php" method="post" enctype="multipart/form-data">
-
-    <h2>Información de Participación</h2>
-
-      <fieldset>
-        <legend>Información Personal</legend>
-
-        <ul>
-          <li><label for="form-name">Nombre:</label> <input type="text" name="name" id="form-name"></li>
-          <li><label for="form-marca">Marca:</label> <input type="text" name="marca" id="form-marca"></li>
-            <li><label for="form-modelo">Modelo:</label> <input type="text" name="modelo" id="form-modelo"></li>
-            <li><label for="form-precio">Precio:</label> <input type="text" name="precio" id="form-precio"></li>
-            <li><label for="form-detalles">Ingresa los detalles de tu producto</label><br><textarea name="detalles" rows="4" cols="60" id="form-detalles" placeholder="No más de 300 caracteres de longitud"></textarea></li>
-            <li><label for="form-unidades">Unidades:</label> <input type="number" name="unidades" id="form-unidades"></li>
-           <li> <label for="form-image">Imagen del Producto:</label>
+            <br>
+            <label for="form-detalles">Detalles:</label>
+            <br>
+            <textarea id="form-detalles" rows="4" cols="50" maxlength="250" placeholder="Max 250 caracteres" name="detalles"></textarea>
+            <span id="error-detalles" class="error" ></span>
+            <br>
+            <label for="form-unidades">Unidades:</label>
+            <input type="number" id="form-unidades" required min="0" placeholder="No negativos" name="unidades">
+            <span id="error-unidades" class="error"></span>
+            <br>
+            <label for="form-image">Imagen del Producto:</label>
             <input type="file" name="imagen" id="form-image" accept="image/*"></li>
-        </ul>
-      </fieldset>
-      <p>
-        <input type="submit" value="¡Producto registrado!">
-        <input type="reset">
-      </p>
+            <br>
+            <button type="submit">Registrar Producto</button>
+            <button type="reset">Reiniciar Formulario</button>
+        </fieldset>
+    </form>
+
+    <script>
+        document.getElementById('formularioProductos').addEventListener('submit', function(event) {
+            event.preventDefault();//previene errores de validación
+            const errors = document.querySelectorAll('.error');
+            errors.forEach(error => { error.textContent = ''; });
+            
+            const nombre = document.getElementById('form-name');
+            const marca = document.getElementById('form-marca');
+            const modelo = document.getElementById('form-modelo');
+            const precio = document.getElementById('form-precio');
+            const detalles = document.getElementById('form-detalles');
+            const unidades = document.getElementById('form-unidades');
+
+            //Funcion de la api de validación
+            if (!nombre.checkValidity()) {
+                document.getElementById('error-name').textContent = 'Nombre obligatorio, máximo 100 caracteres.';
+            }
+
+            if (!marca.checkValidity()) {
+                document.getElementById('error-marca').textContent = 'Selecciona una marca.';
+            }
+
+            if (!modelo.checkValidity()) {
+                document.getElementById('error-modelo').textContent = 'Modelo obligatorio, máximo 25 caracteres alfanumericos.';
+            }
+
+            if (!precio.checkValidity()) {
+                document.getElementById('error-precio').textContent = 'Precio obligatorio, debe ser mayor a 99.9.';
+            }
+
+            if (!unidades.checkValidity()) {
+                document.getElementById('error-unidades').textContent = 'Unidades obligatorias, no pueden ser negativas.';
+            }
+
+            // If all are valid, form can be submitted
+            if (this.querySelectorAll(':invalid').length === 0) {
+                this.submit();
+            }
+        });
+    </script>
 </body>
 </html>

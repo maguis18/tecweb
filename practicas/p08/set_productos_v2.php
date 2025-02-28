@@ -13,6 +13,7 @@ $modelo = $_POST['modelo'];
 $precio = $_POST['precio'];
 $detalles = $_POST['detalles'];
 $unidades = $_POST['unidades'];
+$imagenPredeterminada = "default.png";
 
 $sql_verif = "SELECT * FROM productos WHERE nombre = '$nombre' OR marca = '$marca' OR modelo = '$modelo'";
 $result = $link->query($sql_verif);
@@ -22,8 +23,8 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.or
 echo '<html xmlns="http://www.w3.org/1999/xhtml">';
 echo '<head><title>Resultado del Registro de Producto</title>';
 echo '<style type="text/css">';
-echo 'body { background-color: rgba(156, 247, 250, 0.71); font-family: Open Sans, sans-serif; }'; // Color de fondo aplicado globalmente
-echo 'h1 { color: rgb(37, 190, 246); border-bottom: 1px solid rgb(0, 0, 0); }'; // Estilos de título
+echo 'body { background-color:rgb(219, 251, 216); font-family: Open Sans, sans-serif; }'; // Color de fondo aplicado globalmente
+echo 'h1 { color:rgb(132, 189, 115); border-bottom: 1px solid rgb(0, 0, 0); }'; // Estilos de título
 echo 'li { margin: 10px; }';
 echo 'img { margin: 10px; width: 200px; height: 200px; }';
 echo '</style>';
@@ -34,6 +35,7 @@ if ($result->num_rows > 0) {
     echo "<h1>El producto ya está registrado</h1>";
     echo "<p>El producto con ese nombre, marca o modelo ya existe en la base de datos.</p>";
 } else {
+    $imagen = $imagenPredeterminada;
     if ($_FILES['imagen']['error'] == 0) {
         $imagen = $_FILES['imagen']['name'];
         $imagen_tmp = $_FILES['imagen']['tmp_name'];
