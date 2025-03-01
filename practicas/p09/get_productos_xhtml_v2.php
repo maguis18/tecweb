@@ -4,6 +4,52 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Productos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script>
+        function show(rowId) {
+    var data = document.getElementById(rowId).querySelectorAll(".row-data");
+
+    var id = data[0].innerHTML;
+    var nombre = data[1].innerHTML;
+    var marca = data[2].innerHTML;
+    var modelo = data[3].innerHTML;
+    var precio = data[4].innerHTML;
+    var unidades = data[5].innerHTML;
+    var detalles = data[6].innerHTML;
+    var imagen = data[7].querySelector("img").src;  // Captura la fuente de la imagen
+
+    alert("Nombre: " + nombre + "\nMarca: " + marca + "\nModelo: " + modelo + 
+          "\nPrecio: " + precio + "\nUnidades: " + unidades + "\nDetalles: " + detalles +
+          "\nImagen: " + imagen);
+    send2form(id, nombre, marca, modelo, precio, unidades, detalles, imagen);
+}
+
+function send2form(id, nombre, marca, modelo, precio, unidades, detalles, imagen) {
+    var form = document.createElement("form");
+
+    form.appendChild(createHiddenInput('id', id));
+    form.appendChild(createHiddenInput('name', nombre));
+    form.appendChild(createHiddenInput('marca', marca));
+    form.appendChild(createHiddenInput('modelo', modelo));
+    form.appendChild(createHiddenInput('precio', precio));
+    form.appendChild(createHiddenInput('unidades', unidades));
+    form.appendChild(createHiddenInput('detalles', detalles));
+    form.appendChild(createHiddenInput('imagen', imagen));  // Agrega la imagen al formulario
+
+    form.method = 'POST';
+    form.action = 'formulario_productos_v2.php';
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function createHiddenInput(name, value) {
+    var input = document.createElement("input");
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    return input;
+}
+    </script>
 </head>
 <body>
     <h3>PRODUCTOS</h3>
@@ -45,16 +91,16 @@
             echo '</thead>';
             echo '<tbody>';
             foreach ($rows as $row) {
-                echo '<tr>';
-                echo '<th scope="row">' . $row['id'] . '</th>';
-                echo '<td>' . $row['nombre'] . '</td>';
-                echo '<td>' . $row['marca'] . '</td>';
-                echo '<td>' . $row['modelo'] . '</td>';
-                echo '<td>' . $row['precio'] . '</td>';
-                echo '<td>' . $row['unidades'] . '</td>';
-                echo '<td>' . utf8_encode($row['detalles']) . '</td>';
-                echo '<td><img src="' . $row['imagen'] . '" alt="Producto" style="width: 100px;"></td>';
-                echo '<td><a href="formulario_productos_v2.php?id=' . $row['id'] . '" class="btn btn-success">Editar</a></td>'; 
+                echo '<tr id="row' . $row['id'] . '">';
+                echo '<td class="row-data">' . $row['id'] . '</td>';
+                echo '<td class="row-data">' . $row['nombre'] . '</td>';
+                echo '<td class="row-data">' . $row['marca'] . '</td>';
+                echo '<td class="row-data">' . $row['modelo'] . '</td>';
+                echo '<td class="row-data">' . $row['precio'] . '</td>';
+                echo '<td class="row-data">' . $row['unidades'] . '</td>';
+                echo '<td class="row-data">' . $row['detalles'] . '</td>';
+                echo '<td class="row-data"><img src="' . $row['imagen'] . '" alt="Producto" style="width: 100px;"></td>';
+                echo '<td><input type="button" value="Editar" onclick="show(\'row' . $row['id'] . '\') " " class="btn btn-success" /></td>';
                 echo '</tr>';
             }
             echo '</tbody>';
