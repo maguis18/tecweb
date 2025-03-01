@@ -18,8 +18,7 @@
     var imagen = data[7].querySelector("img").src;  // Captura la fuente de la imagen
 
     alert("Nombre: " + nombre + "\nMarca: " + marca + "\nModelo: " + modelo + 
-          "\nPrecio: " + precio + "\nUnidades: " + unidades + "\nDetalles: " + detalles +
-          "\nImagen: " + imagen);
+          "\nPrecio: " + precio + "\nUnidades: " + unidades + "\nDetalles: " + detalles );
     send2form(id, nombre, marca, modelo, precio, unidades, detalles, imagen);
 }
 
