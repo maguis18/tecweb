@@ -7,7 +7,7 @@ if (!$link) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
     $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
+    $nombre = $_POST['name'];
     $marca = $_POST['marca'];
     $modelo = $_POST['modelo'];
     $precio = $_POST['precio'];
