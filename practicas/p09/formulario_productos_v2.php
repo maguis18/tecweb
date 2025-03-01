@@ -63,7 +63,7 @@
 
     <h1>Registro de productos</h1>
     <p>En este formulario podrás registrar los datos de tu producto.</p>
-    <form id="formularioProductos" novalidate action="http://localhost/tecweb/practicas/p08/set_productos_v2.php" method="post" enctype="multipart/form-data">
+    <form id="formularioProductos" novalidate action="update_producto.php" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend>Información del Producto</legend>
             <input type="hidden" id="form-id" name="id" value="<?= !empty($_POST['id']) ? htmlspecialchars($_POST['id']) : '' ?>">
