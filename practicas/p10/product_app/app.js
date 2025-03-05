@@ -113,8 +113,8 @@ function agregarProducto(e) {
 
     // 1. Obtener el nombre del input
     let nombreInput = document.getElementById('name').value.trim();
-    if (nombreInput === '') {
-        window.alert("El nombre del producto es obligatorio.");
+    if (nombreInput === '' || nombreInput.length >100) {
+        window.alert("El nombre del producto es obligatorio y máximo 100 caracteres.");
         return;
     }
 
@@ -129,9 +129,28 @@ function agregarProducto(e) {
         window.alert("JSON inválido. Verifica la sintaxis en el textarea.");
         return;
     }
-
+ 
     // 4. Sobrescribir el campo 'nombre' con el valor capturado en <input id="name">
     finalJSON['nombre'] = nombreInput;
+
+    if(finalJSON.marca.trim === ""){
+        window.alert("El nombre de la marca es obligatorio.");
+        return;
+    }
+
+
+    if (!finalJSON.modelo || finalJSON.modelo.trim() === "" || finalJSON.modelo.length > 25 || !/^[a-zA-Z0-9-]+$/.test(finalJSON.modelo)) {
+        window.alert("El modelo es obligatorio y debe ser máximo 25 caracteres alfanuméricos y guiones medios.");
+        return;
+    }
+
+    
+
+    if(finalJSON.detalles.trim() === " " || finalJSON.detalles.length > 250){
+        window.alert("los detalles son obligatorios y deben ser máximo 250 caracteres");
+        return;
+    }
+
 
     // 5. Validar otros campos (precio, unidades, etc.) si deseas:
     let numPrecio = parseFloat(finalJSON.precio);
@@ -141,7 +160,7 @@ function agregarProducto(e) {
     }
     let numUnidades = parseInt(finalJSON.unidades);
     if (isNaN(numUnidades) || numUnidades < 0) {
-        window.alert("Las unidades deben ser un número entero >= 0.");
+        window.alert("Las unidades deben ser un número entero mayor o igual a cero.");
         return;
     }
     // Puedes añadir más validaciones (marca, modelo, etc.) si lo requieres
