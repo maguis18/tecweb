@@ -1,36 +1,36 @@
+// Archivo: app.js
+
 // JSON BASE A MOSTRAR EN FORMULARIO
 var baseJSON = {
-    "precio": 0.0,
+    "precio": 100.0,
     "unidades": 1,
-    "modelo": "XX-000",
+    "modelo": "XX-001",
     "marca": "NA",
     "detalles": "NA",
     "imagen": "img/default.png"
 };
 
-// FUNCIÓN CALLBACK DE BOTÓN "Buscar"
+// FUNCIÓN INIT PARA MOSTRAR EL JSON BASE AL CARGAR LA PÁGINA
+function init() {
+    let JsonString = JSON.stringify(baseJSON, null, 2);
+    document.getElementById("description").value = JsonString;
+}
+
+// FUNCIÓN CALLBACK DE BOTÓN "Buscar" (Búsqueda por ID en read.php)
 function buscarID(e) {
     e.preventDefault();
+    let terminoBuscar = document.getElementById('search').value;
 
-    // OBTENEMOS EL TEXTO QUE SE DESEA BUSCAR
-    var terminoBuscar = document.getElementById('search').value;
-
-    // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
-    var client = getXMLHttpRequest();
+    let client = getXMLHttpRequest();
     client.open('POST', './backend/read.php', true);
     client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     client.onreadystatechange = function () {
         if (client.readyState == 4 && client.status == 200) {
-            console.log('[CLIENTE]\n'+client.responseText);
+            console.log('[CLIENTE]\n' + client.responseText);
             
-            // SE OBTIENE EL ARRAY DE PRODUCTOS A PARTIR DE UN STRING JSON
             let productos = JSON.parse(client.responseText);
-
-            // VERIFICAMOS SI HAY PRODUCTOS
-            if(productos.length > 0) {
-                // CONSTRUIMOS UNA CADENA PARA LAS FILAS DE LA TABLA
+            if (productos.length > 0) {
                 let template = '';
-
                 productos.forEach((prod) => {
                     let descripcion = `
                         <li>precio: ${prod.precio}</li>
@@ -47,11 +47,8 @@ function buscarID(e) {
                         </tr>
                     `;
                 });
-
-                // REMPLAZAMOS EL CUERPO DE LA TABLA CON LAS NUEVAS FILAS
                 document.getElementById("productos").innerHTML = template;
             } else {
-                // SI NO HAY COINCIDENCIAS, MOSTRAR MENSAJE
                 document.getElementById("productos").innerHTML = `
                     <tr>
                         <td colspan="3">No se encontraron resultados</td>
@@ -60,87 +57,27 @@ function buscarID(e) {
             }
         }
     };
-    
-    // AQUÍ ENVIAMOS LA VARIABLE "buscar" (parte del nombre, marca o detalles)
-    client.send("buscar="+encodeURIComponent(terminoBuscar));
+    client.send("buscar=" + encodeURIComponent(terminoBuscar));
 }
 
-// FUNCIÓN CALLBACK DE BOTÓN "Agregar Producto" (SIN CAMBIOS)
-function agregarProducto(e) {
-    e.preventDefault();
-
-    // SE OBTIENE DESDE EL FORMULARIO EL JSON A ENVIAR
-    var productoJsonString = document.getElementById('description').value;
-    // SE CONVIERTE EL JSON DE STRING A OBJETO
-    var finalJSON = JSON.parse(productoJsonString);
-    // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
-    finalJSON['nombre'] = document.getElementById('name').value;
-    // SE OBTIENE EL STRING DEL JSON FINAL
-    productoJsonString = JSON.stringify(finalJSON,null,2);
-
-    // SE CREA EL OBJETO DE CONEXIÓN ASÍNCRONA AL SERVIDOR
-    var client = getXMLHttpRequest();
-    client.open('POST', './backend/create.php', true);
-    client.setRequestHeader('Content-Type', "application/json;charset=UTF-8");
-    client.onreadystatechange = function () {
-        if (client.readyState == 4 && client.status == 200) {
-            console.log(client.responseText);
-        }
-    };
-    client.send(productoJsonString);
-}
-
-// SE CREA EL OBJETO DE CONEXIÓN COMPATIBLE CON EL NAVEGADOR (SIN CAMBIOS)
-function getXMLHttpRequest() {
-    var objetoAjax;
-    try{
-        objetoAjax = new XMLHttpRequest();
-    } catch(err1){
-        try{
-            // IE7 y IE8
-            objetoAjax = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch(err2){
-            try{
-                // IE5 y IE6
-                objetoAjax = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch(err3){
-                objetoAjax = false;
-            }
-        }
-    }
-    return objetoAjax;
-}
-
-// FUNCIÓN INIT PARA MOSTRAR EL JSON BASE (SIN CAMBIOS)
-function init() {
-    var JsonString = JSON.stringify(baseJSON,null,2);
-    document.getElementById("description").value = JsonString;
-}
+// FUNCIÓN PARA BÚSQUEDA DE PRODUCTOS POR TEXTO (NOMBRE, MARCA, DETALLES, ETC.)
 function buscarProducto(e) {
     e.preventDefault();
-
-    // 1. OBTENER EL TEXTO DE BÚSQUEDA
     let terminoBuscar = document.getElementById('search').value;
 
-    // 2. CREAR EL OBJETO AJAX
     let client = getXMLHttpRequest();
     client.open('POST', './backend/read.php', true);
     client.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-    // 3. MANEJO DE LA RESPUESTA
     client.onreadystatechange = function () {
         if (client.readyState === 4 && client.status === 200) {
             console.log("[CLIENTE]\n" + client.responseText);
 
-            // La respuesta es un array de productos
             let productos = JSON.parse(client.responseText);
-
-            // 4. MOSTRAR LOS PRODUCTOS EN LA TABLA
             if (productos.length > 0) {
                 let template = "";
                 
                 productos.forEach((prod) => {
-                    // Para cada producto creamos una fila
                     let descripcion = `
                         <li>precio: ${prod.precio}</li>
                         <li>unidades: ${prod.unidades}</li>
@@ -157,10 +94,8 @@ function buscarProducto(e) {
                     `;
                 });
 
-                // Colocamos el resultado en el cuerpo de la tabla
                 document.getElementById("productos").innerHTML = template;
             } else {
-                // Si no hay resultados, mostramos un mensaje
                 document.getElementById("productos").innerHTML = `
                     <tr>
                         <td colspan="3">No se encontraron productos</td>
@@ -169,51 +104,92 @@ function buscarProducto(e) {
             }
         }
     };
-
-    // 5. ENVIAR EL TÉRMINO DE BÚSQUEDA
-    // (Usamos "buscar" como variable POST en read.php)
     client.send("buscar=" + encodeURIComponent(terminoBuscar));
 }
 
-//VALIDACIONES PARA ISNERCION DE PRODUCTOS
-document.addEventListener('DOMContentLoaded', function() {
-document.getElementById('formularioProductos').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const errors = document.querySelectorAll('.error');
-    errors.forEach(error => { error.textContent = ''; });
+// FUNCIÓN PARA AGREGAR PRODUCTO (INSERTAR EN BD) CON VALIDACIÓN
+function agregarProducto(e) {
+    e.preventDefault();
 
-    const nombre = document.getElementById('form-name');
-    const marca = document.getElementById('form-marca');
-    const modelo = document.getElementById('form-modelo');
-    const precio = document.getElementById('form-precio');
-    const detalles = document.getElementById('form-detalles');
-    const unidades = document.getElementById('form-unidades');
-    const imagen = document.getElementById('form-image');
-
-    // Validación de la API de validación del navegador
-    if (!nombre.checkValidity()) {
-        document.getElementById('error-name').textContent = 'Nombre obligatorio, máximo 100 caracteres.';
+    // 1. Obtener el nombre del input
+    let nombreInput = document.getElementById('name').value.trim();
+    if (nombreInput === '') {
+        window.alert("El nombre del producto es obligatorio.");
+        return;
     }
 
-    if (!marca.checkValidity()) {
-        document.getElementById('error-marca').textContent = 'Selecciona una marca.';
+    // 2. LEER EL CONTENIDO DEL <textarea> (resto de datos)
+    let productoJsonString = document.getElementById('description').value;
+    let finalJSON;
+
+    // 3. Intentar parsear el JSON
+    try {
+        finalJSON = JSON.parse(productoJsonString);
+    } catch (error) {
+        window.alert("JSON inválido. Verifica la sintaxis en el textarea.");
+        return;
     }
 
-    if (!modelo.checkValidity()) {
-        document.getElementById('error-modelo').textContent = 'Modelo obligatorio, máximo 25 caracteres alfanuméricos.';
-    }
+    // 4. Sobrescribir el campo 'nombre' con el valor capturado en <input id="name">
+    finalJSON['nombre'] = nombreInput;
 
-    if (!precio.checkValidity()) {
-        document.getElementById('error-precio').textContent = 'Precio obligatorio, debe ser mayor a 99.9.';
+    // 5. Validar otros campos (precio, unidades, etc.) si deseas:
+    let numPrecio = parseFloat(finalJSON.precio);
+    if (isNaN(numPrecio) || numPrecio <= 99.9) {
+        window.alert("El precio debe ser un número mayor a 99.9.");
+        return;
     }
+    let numUnidades = parseInt(finalJSON.unidades);
+    if (isNaN(numUnidades) || numUnidades < 0) {
+        window.alert("Las unidades deben ser un número entero >= 0.");
+        return;
+    }
+    // Puedes añadir más validaciones (marca, modelo, etc.) si lo requieres
 
-    if (!unidades.checkValidity()) {
-        document.getElementById('error-unidades').textContent = 'Unidades obligatorias, no pueden ser negativas.';
-    }
+    // 6. Enviar al servidor (create.php) vía AJAX
+    var client = getXMLHttpRequest();
+    client.open('POST', './backend/create.php', true);
+    client.setRequestHeader('Content-Type', "application/json;charset=UTF-8");
+    client.onreadystatechange = function () {
+        if (client.readyState === 4 && client.status === 200) {
+            let resp;
+            try {
+                resp = JSON.parse(client.responseText);
+            } catch (err) {
+                window.alert("La respuesta del servidor no es JSON válido.");
+                return;
+            }
 
-    // Si todo es válido, se puede enviar el formulario
-    if (this.querySelectorAll(':invalid').length === 0) {
-        this.submit();
+            // Mostrar mensaje con window.alert
+            window.alert(resp.message);
+
+            // Si fue éxito, podrías limpiar el input y textarea
+            if (resp.status === "success") {
+                document.getElementById('name').value = '';
+                document.getElementById('description').value = JSON.stringify(baseJSON, null, 2);
+            }
+        }
+    };
+
+    // 7. Enviar el objeto final al servidor
+    client.send(JSON.stringify(finalJSON));
+}
+
+// FUNCIÓN PARA CREAR XHR COMPATIBLE CON NAVEGADORES ANTIGUOS
+function getXMLHttpRequest() {
+    var objetoAjax;
+    try {
+        objetoAjax = new XMLHttpRequest();
+    } catch (err1) {
+        try {
+            objetoAjax = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (err2) {
+            try {
+                objetoAjax = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (err3) {
+                objetoAjax = false;
+            }
+        }
     }
-});
-});
+    return objetoAjax;
+}
