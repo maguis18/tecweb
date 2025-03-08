@@ -17,28 +17,29 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto"></ul>
-          <form class="form-inline my-2 my-lg-0">
+          <form class="form-inline my-2 my-lg-0"><!--le da estilo al nav pero no regresa nada -->
+            <!--input para buscar -->
             <input class="form-control mr-sm-2" name="search" id="search" type="search" placeholder="ID, marca o descripción" aria-label="Search">
-            <button class="btn btn-success my-2 my-sm-0" type="submit" onclick="buscarProducto(event)">Buscar</button>
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
           </form>
       </div>
     </nav>
 
     <div class="container">
       <div class="row p-4">
-        <div class="col-md-5">
+        <div class="col-md-5"><!--divide las columnas a usar 5 para el from -->
           <div class="card">
             <div class="card-body">
               <!-- FORMULARIO PARA AGREGAR PRODUCTO -->
-              <form id="product-form">
+              <form id="product-form"> <!--se cambi por product-->
                 <div class="form-group">
                   <input class="form-control" type="text" id="name" placeholder="Nombre de producto">
                 </div>
                 <div class="form-group">
                   <textarea class="form-control" id="description" cols="30" rows="10" placeholder="JSON de producto"></textarea>
                 </div>
-                <input type="hidden" id="productId">
-                <button class="btn btn-primary btn-block text-center" type="submit" onclick="agregarProducto(event)">
+                <input type="hidden" id="productId"> <!--se cambi por product-->
+                <button class="btn btn-primary btn-block text-center" type="submit" >
                   Agregar Producto
                 </button>
               </form>
@@ -47,14 +48,15 @@
         </div>
 
         <!-- TABLA  -->
-        <div class="col-md-7">
+        <div class="col-md-7"><!--dividimos el espacio que usara de la pantalla la tabla -->
           <div class="card my-4 d-none" id="product-result">
+            <!--se cambi por product-->
             <div class="card-body">
               <!-- RESULTADO -->
               <ul id="container"></ul>
             </div>
           </div>
-
+          <!--estilo agregado-->
           <table class="table table-bordered table-sm">
             <thead>
               <tr>
@@ -63,15 +65,15 @@
                 <td>Descripción</td>
               </tr>
             </thead>
-            <tbody id="products"></tbody>
+            <tbody id="products"></tbody> <!--se cambio por products-->
           </table>
         </div>
       </div>
     </div>
 
-    <!--script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"></script-->
+      crossorigin="anonymous"></script>
     <!-- Lógica del Frontend -->
     <script src="app.js"></script>
   </body>
