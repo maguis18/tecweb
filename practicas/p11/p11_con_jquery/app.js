@@ -48,12 +48,99 @@ $(document).ready(function() {
             }
         });
 
-        $('#product-form').submit(e => {
-            e.preventDefault();
-            const postData = {
-              nombre: $('#name').val(),
-              json: $('#description').val(),
-              productId: $('#productId').val()
-            };
+            // Evento de envío del formulario
+            $('#product-form').submit(function(e) {
+              e.preventDefault(); // Evita que se recargue la página
+          
+              // validamos el nommbre
+              let nombreInput = $('#name').val();
+              if (nombreInput === '' || nombreInput.length > 100) {
+                window.alert("El nombre del producto es obligatorio y máximo 100 caracteres.");
+                return;
+              }
+          
+              
+              let productoJsonString = $('#description').val();
+              let finalJSON;
+          
+              // etso nos ayuda a obtener los datos de la textarea
+              try {
+                finalJSON = JSON.parse(productoJsonString);
+              } catch (error) {
+                window.alert("JSON inválido. Verifica la sintaxis en el textarea.");
+                return;
+              }
+        
+              finalJSON.nombre = nombreInput;
+          
+              // verificamos la marca
+              if (!finalJSON.marca || finalJSON.marca.trim() === "") {
+                window.alert("El nombre de la marca es obligatorio.");
+                return;
+              }
+          
+              // valdiamos el modelo
+              if (
+                !finalJSON.modelo ||
+                finalJSON.modelo.trim() === "" ||
+                finalJSON.modelo.length > 25 ||
+                !/^[a-zA-Z0-9-]+$/.test(finalJSON.modelo)
+              ) {
+                window.alert("El modelo es obligatorio, máximo 25 caracteres alfanuméricos.");
+                return;
+              }
+          
+              // validamos los detalles
+              if (
+                !finalJSON.detalles ||
+                finalJSON.detalles.trim() === "" ||
+                finalJSON.detalles.length > 250
+              ) {
+                window.alert("Los detalles son obligatorios y deben ser máximo 250 caracteres.");
+                return;
+              }
+          
+              //validamos el prwcio
+              let numPrecio = parseFloat(finalJSON.precio);
+              if (isNaN(numPrecio) || numPrecio <= 99.9) {
+                window.alert("El precio debe ser un número mayor a 99.9.");
+                return;
+              }
+          
+              //validamos las unidades
+              let numUnidades = parseInt(finalJSON.unidades);
+              if (isNaN(numUnidades) || numUnidades < 0) {
+                window.alert("Las unidades deben ser un número entero mayor o igual a cero.");
+                return;
+              }
+          //si todos los datos cumplem las validaciones
+              $.ajax({
+                url: 'backend/product-add.php', // Ajusta la ruta si es necesario
+                type: 'POST',
+                data: JSON.stringify(finalJSON),
+                contentType: 'application/json; charset=utf-8',
+                success: function(response) {
+                  //console.log('Respuesta del servidor:', response);
+                  // Intentamos parsear la respuesta para ver si incluye 'status' y 'message'
+                  try {
+                    let jsonResp = JSON.parse(response);
+                    if (jsonResp.status === 'success') {
+                      alert(jsonResp.message || 'Producto agregado correctamente.');
+                      $('#product-form')[0].reset();
+                    } else {
+                      alert(jsonResp.message || 'Ocurrió un error al agregar el producto.');
+                    }
+                  } catch (e) {
+                    alert('Ocurrió un error al procesar la respuesta del servidor.');
+                  }
+                },
+                error: function(xhr, status, error) {
+                  console.error(error);
+                  alert('Ocurrió un error en la solicitud AJAX.');
+                }
+              });
+            });
+          
+
 
 });
