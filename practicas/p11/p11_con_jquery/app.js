@@ -22,25 +22,27 @@ fetchProducts();
   // Evento keyup para el campo de búsqueda
   $('#search').keyup(function(e) {
     var search = $('#search').val();
-    if (search) {
       $.ajax({
         url: 'backend/product-search.php',
         type: 'GET',
-        data: { search: search },
+        data: { search },
         success: function(response) {
+          if(!response.error){
           var products = JSON.parse(response);
-          console.log(products);
+          //console.log(products);
           var template = '';
-          products.forEach(function(product) {
+          products.forEach(product => {
             template += `
-            <li><a href="#" class="product-item">${task.name}</a></li>
-           ` 
+            <li><a href="#" class="product-item">${product.nombre}</a></li>
+          ` ;
           });
           $('#product-result').show();
+          $('#product-result').removeClass('d-none'); // Quita la clase que oculta el elemento
           $('#container').html(template);
         }
+      }
       });
-    }
+    
   });
 
   // Evento de envío del formulario
@@ -170,8 +172,10 @@ fetchProducts();
         });
         }
         });
-
-        
-  });
+//funcion para editar
+$(document).on('click', '.product-item', function() {
+  console.log('editando');
+});
+});
 
 
