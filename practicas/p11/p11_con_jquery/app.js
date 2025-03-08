@@ -143,9 +143,13 @@ fetchProducts();
           let template = '';
           products.forEach(product => {
             template += `
-            <tr>
+            <tr productId="${product.id}">
               <td>${product.id}</td>
-              <td>${product.nombre}</td>
+              <td>
+              <a href="#" class="product-item">
+              ${product.nombre}
+              </a>
+              </td>
               <td>${product.detalles}</td>
               <td>
                 <button class="product-delete btn btn-danger">Eliminar</button>
@@ -157,10 +161,17 @@ fetchProducts();
         }
       });
     }
-    
-    // Si deseas llamar a fetchProducts, descomenta la siguiente línea:
-    // fetchProducts();
-  
+    // Evento para eliminar un producto
+    $(document).on('click', '.product-delete', function() {
+      if(confirm('¿Estas seguro de eliminar etse elemento?')) {
+        const id = $(this).closest('tr').attr('productId');
+        $.get('backend/product-delete.php', {id}, (response) => {
+          fetchProducts();
+        });
+        }
+        });
+
+        
   });
 
 
