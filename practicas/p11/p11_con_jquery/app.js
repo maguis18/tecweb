@@ -184,9 +184,11 @@ fetchProducts();
     }
     // Evento para eliminar un producto
     $(document).on('click', '.product-delete', function() {
-      if(confirm('¿Estas seguro de eliminar etse elemento?')) {
+      if(confirm('¿Estas seguro de eliminar este elemento?')) {
         const id = $(this).closest('tr').attr('productId');
         $.get('backend/product-delete.php', {id}, (response) => {
+          const result = JSON.parse(response); 
+            alert(result.message);
           fetchProducts();
         });
         }
