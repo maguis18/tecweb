@@ -16,34 +16,47 @@ function init() {
 }
 
 $(document).ready(function() {
-  // Llama a init() cuando el DOM esté listo
+  let edit = false; // Bandera para saber si se está en modo edición
   init();
 fetchProducts();
   // Evento keyup para el campo de búsqueda
   $('#search').keyup(function(e) {
-    var search = $('#search').val();
-      $.ajax({
-        url: 'backend/product-search.php',
-        type: 'GET',
-        data: { search },
-        success: function(response) {
-          if(!response.error){
-          var products = JSON.parse(response);
-          //console.log(products);
-          var template = '';
-          products.forEach(product => {
-            template += `
-            <li><a href="#" class="product-item">${product.nombre}</a></li>
-          ` ;
-          });
-          $('#product-result').show();
-          $('#product-result').removeClass('d-none'); // Quita la clase que oculta el elemento
-          $('#container').html(template);
-        }
+    var search = $('#search').val().trim();
+    // Si no hay búsqueda, mostramos la lista completa
+    if (search === '') {
+      fetchProducts();
+      $('#product-result').addClass('d-none').hide();
+      $('#container').html('');
+      return;
+    }
+    $.ajax({
+      url: 'backend/product-search.php',
+      type: 'GET',
+      data: { search: search },
+      success: function(response) {
+        var products = JSON.parse(response);
+        var listTemplate = '';
+        var tableTemplate = '';
+        products.forEach(product => {
+          // Construimos la lista para el contenedor (si lo deseas)
+          listTemplate += `<li><a href="#" class="product-item">${product.nombre}</a></li>`;
+          // Construimos las filas de la tabla
+          tableTemplate += `
+            <tr productId="${product.id}">
+              <td>${product.id}</td>
+              <td><a href="#" class="product-item">${product.nombre}</a></td>
+              <td>${product.detalles}</td>
+              <td><button class="product-delete btn btn-danger">Eliminar</button></td>
+            </tr>
+          `;
+        });
+        $('#product-result').removeClass('d-none').show();
+        $('#container').html(listTemplate);
+        $('#products').html(tableTemplate);
       }
-      });
-    
+    });
   });
+  
 
   // Evento de envío del formulario
   $('#product-form').submit(function(e) {
@@ -122,6 +135,7 @@ fetchProducts();
             alert(jsonResp.message || 'Producto agregado correctamente.');
             $('#product-form')[0].reset();
             fetchProducts();
+            init();
           } else {
             alert(jsonResp.message || 'Ocurrió un error al agregar el producto.');
           }
@@ -134,7 +148,12 @@ fetchProducts();
         alert('Ocurrió un error en la solicitud AJAX.');
       }
     });
-  }); // Fin de submit
+  }
+  );
+  
+
+
+ // Fin de submit
     // Función para obtener y mostrar la lista de productos
     function fetchProducts() {
       $.ajax({
@@ -172,10 +191,42 @@ fetchProducts();
         });
         }
         });
+
+        $(document).on('click', '.product-item', function(e) {
+          e.preventDefault();
+          let element = $(this).closest('tr');
+          let id = element.attr('productId');
+          $.post('backend/product-single.php', { id: id }, function(response) {
+            let product = JSON.parse(response);
+            $('#name').val(product.nombre);
+            // Se reconstruye el objeto JSON con las propiedades del producto (excepto el nombre, que se muestra en el input)
+            let productData = {
+              precio: product.precio,
+              unidades: product.unidades,
+              modelo: product.modelo,
+              marca: product.marca,
+              detalles: product.detalles,
+              imagen: product.imagen
+            };
+            $('#description').val(JSON.stringify(productData, null, 2));
+            $('#productId').val(product.id);
+            edit = true;
+          });
+        });
 //funcion para editar
-$(document).on('click', '.product-item', function() {
-  console.log('editando');
-});
+/*$(document).on('click', '.product-item', function() {
+  const element = $(this)[0].activeElement.parentElement.parentElement;
+  const id = $(element).attr('productId');
+  $.post('product-single.php', {id}, (response) => {
+    const product = JSON.parse(response);
+    $('#name').val(task.nombre);
+    $('#description').val(task.description);
+    $('#taskId').val(task.id);
+    edit = true;
+  });
+  e.preventDefault();
+});*/
+
 });
 
 
