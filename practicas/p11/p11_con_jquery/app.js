@@ -56,102 +56,40 @@ fetchProducts();
       }
     });
   });
-  
+
 
   // Evento de envío del formulario
-  $('#product-form').submit(function(e) {
-    e.preventDefault(); // Evita que se recargue la página
-//fetchProducts();
-    // Validamos el nombre
-    let nombreInput = $('#name').val();
-    if (nombreInput === '' || nombreInput.length > 100) {
-      window.alert("El nombre del producto es obligatorio y máximo 100 caracteres.");
-      return;
-    }
+  $('#product-form').submit(function(e) { 
+    e.preventDefault();
+    let postData = JSON.parse($('#description').val());
+    postData['nombre'] = $('#name').val();
+    postData['id'] = $('#productId').val();
+    let url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
 
-    // Obtenemos el contenido del textarea
-    let productoJsonString = $('#description').val();
-    let finalJSON;
-    try {
-      finalJSON = JSON.parse(productoJsonString);
-    } catch (error) {
-      window.alert("JSON inválido. Verifica la sintaxis en el textarea.");
-      return;
-    }
 
-    finalJSON.nombre = nombreInput;
 
-    // Validamos la marca
-    if (!finalJSON.marca || finalJSON.marca.trim() === "") {
-      window.alert("El nombre de la marca es obligatorio.");
-      return;
-    }
-
-    // Validamos el modelo
-    if (
-      !finalJSON.modelo ||
-      finalJSON.modelo.trim() === "" ||
-      finalJSON.modelo.length > 25 ||
-      !/^[a-zA-Z0-9-]+$/.test(finalJSON.modelo)
-    ) {
-      window.alert("El modelo es obligatorio, máximo 25 caracteres alfanuméricos.");
-      return;
-    }
-
-    // Validamos los detalles
-    if (
-      !finalJSON.detalles ||
-      finalJSON.detalles.trim() === "" ||
-      finalJSON.detalles.length > 250
-    ) {
-      window.alert("Los detalles son obligatorios y deben ser máximo 250 caracteres.");
-      return;
-    }
-
-    // Validamos el precio
-    let numPrecio = parseFloat(finalJSON.precio);
-    if (isNaN(numPrecio) || numPrecio <= 99.9) {
-      window.alert("El precio debe ser un número mayor a 99.9.");
-      return;
-    }
-
-    // Validamos las unidades
-    let numUnidades = parseInt(finalJSON.unidades);
-    if (isNaN(numUnidades) || numUnidades < 0) {
-      window.alert("Las unidades deben ser un número entero mayor o igual a cero.");
-      return;
-    }
-
-    // Envío AJAX para agregar el producto
     $.ajax({
-      url: 'backend/product-add.php',
+      url: url,
       type: 'POST',
-      data: JSON.stringify(finalJSON),
+      data: JSON.stringify(postData),
       contentType: 'application/json; charset=utf-8',
+      dataType: 'json', // Esto fuerza a jQuery a parsear la respuesta como JSON
       success: function(response) {
-        try {
-          let jsonResp = JSON.parse(response);
-          if (jsonResp.status === 'success') {
-            alert(jsonResp.message || 'Producto agregado correctamente.');
-            $('#product-form')[0].reset();
-            fetchProducts();
-            init();
-          } else {
-            alert(jsonResp.message || 'Ocurrió un error al agregar el producto.');
-          }
-        } catch (e) {
-          alert('Ocurrió un error al procesar la respuesta del servidor.');
-        }
-      },
-      error: function(xhr, status, error) {
-        console.error(error);
-        alert('Ocurrió un error en la solicitud AJAX.');
+        console.log("Respuesta del servidor:", response);
+        alert(response.message);
+        let template_bar = `
+          <li style="list-style-type:none;">status: ${response.status}</li>
+          <li style="list-style-type:none;">message: ${response.message}</li>
+        `;
+        $('#name').val('');
+        //init(); // Restaura el JSON base en el textarea
+        $('#product-result').show();
+        $('#container').html(template_bar);
+        fetchProducts();
+        edit = false;
       }
     });
-  }
-  );
-  
-
+  });
 
  // Fin de submit
     // Función para obtener y mostrar la lista de productos
@@ -174,6 +112,7 @@ fetchProducts();
               <td>${product.detalles}</td>
               <td>
                 <button class="product-delete btn btn-danger">Eliminar</button>
+                <button class="product-edit btn btn-warning">Editar</button>
               </td>
             </tr>
             `;
@@ -193,41 +132,23 @@ fetchProducts();
         });
         }
         });
-
-        $(document).on('click', '.product-item', function(e) {
-          e.preventDefault();
-          let element = $(this).closest('tr');
-          let id = element.attr('productId');
-          $.post('backend/product-single.php', { id: id }, function(response) {
-            let product = JSON.parse(response);
-            $('#name').val(product.nombre);
-            // Se reconstruye el objeto JSON con las propiedades del producto (excepto el nombre, que se muestra en el input)
-            let productData = {
-              precio: product.precio,
-              unidades: product.unidades,
-              modelo: product.modelo,
-              marca: product.marca,
-              detalles: product.detalles,
-              imagen: product.imagen
-            };
-            $('#description').val(JSON.stringify(productData, null, 2));
-            $('#productId').val(product.id);
-            edit = true;
-          });
-        });
-//funcion para editar
-/*$(document).on('click', '.product-item', function() {
-  const element = $(this)[0].activeElement.parentElement.parentElement;
-  const id = $(element).attr('productId');
-  $.post('product-single.php', {id}, (response) => {
-    const product = JSON.parse(response);
-    $('#name').val(task.nombre);
-    $('#description').val(task.description);
-    $('#taskId').val(task.id);
-    edit = true;
-  });
-  e.preventDefault();
-});*/
+    // Evento para editar un producto
+    $(document).on('click', '.product-edit', function() {
+      let element = $(this)[0].parentElement.parentElement;
+      let id = $(element).attr('productId');
+      $.post('backend/product-single.php', { id }, function(response) {
+        // Asigna el nombre al input correspondiente y el id al campo oculto
+        $('#name').val(response.nombre);
+        $('#productId').val(response.id);
+        
+        // Se crea un nuevo objeto quitando 'id' y 'nombre'
+        let { id, nombre, ...productData } = response;
+        
+        // Ahora se muestra en el textarea solo el resto de la información
+        $('#description').val(JSON.stringify(productData, null, 2));
+        edit = true;
+      }, 'json');
+    });
 
 });
 
