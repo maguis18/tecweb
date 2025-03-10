@@ -76,17 +76,25 @@ fetchProducts();
       dataType: 'json', // Esto fuerza a jQuery a parsear la respuesta como JSON
       success: function(response) {
         console.log("Respuesta del servidor:", response);
+        if(response.status === 'error') {
+          alert("Error: " + response.message);
+          return;
+        }
         alert(response.message);
         let template_bar = `
           <li style="list-style-type:none;">status: ${response.status}</li>
           <li style="list-style-type:none;">message: ${response.message}</li>
         `;
         $('#name').val('');
-        //init(); // Restaura el JSON base en el textarea
+        init(); // Restaura el JSON base en el textarea
         $('#product-result').show();
         $('#container').html(template_bar);
         fetchProducts();
         edit = false;
+      },
+      error: function(xhr, status, error) {
+        console.error("Error en la petición AJAX:", status);
+        alert("Ocurrió un error en la petición: ");
       }
     });
   });
