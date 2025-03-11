@@ -13,6 +13,7 @@ function init() {
   var JsonString = JSON.stringify(baseJSON, null, 2);
   console.log("Ejecutando init():", JsonString);
   document.getElementById("description").value = JsonString;
+  $('#product-result').hide();
 }
 
 $(document).ready(function() {
@@ -25,7 +26,7 @@ fetchProducts();
     // Si no hay búsqueda, mostramos la lista completa
     if (search === '') {
       fetchProducts();
-      $('#product-result').addClass('d-none').hide();
+      $('#product-result').hide();
       $('#container').html('');
       return;
     }
@@ -50,7 +51,7 @@ fetchProducts();
             </tr>
           `;
         });
-        $('#product-result').removeClass('d-none').show();
+        $('#product-result').show();
         $('#container').html(listTemplate);
         $('#products').html(tableTemplate);
       }
@@ -75,12 +76,7 @@ fetchProducts();
       contentType: 'application/json; charset=utf-8',
       dataType: 'json', // Esto fuerza a jQuery a parsear la respuesta como JSON
       success: function(response) {
-        console.log("Respuesta del servidor:", response);
-        if(response.status === 'error') {
-          alert("Error: " + response.message);
-          return;
-        }
-        alert(response.message);
+        //console.log("Respuesta del servidor:", response);
         let template_bar = `
           <li style="list-style-type:none;">status: ${response.status}</li>
           <li style="list-style-type:none;">message: ${response.message}</li>
@@ -93,8 +89,13 @@ fetchProducts();
         edit = false;
       },
       error: function(xhr, status, error) {
-        console.error("Error en la petición AJAX:", status);
-        alert("Ocurrió un error en la petición: ");
+        // En caso de que la petición no se realice correctamente (por ejemplo, error HTTP)
+        let template_bar = `
+          <li style="list-style-type:none;">status: error</li>
+          <li style="list-style-type:none;">message: ${error}</li>
+        `;
+        $('#product-result').show();
+        $('#container').html(template_bar);
       }
     });
   });
@@ -135,8 +136,14 @@ fetchProducts();
         const id = $(this).closest('tr').attr('productId');
         $.get('backend/product-delete.php', {id}, (response) => {
           const result = JSON.parse(response); 
-            alert(result.message);
-          fetchProducts();
+          let template_bar = `
+          <li style="list-style-type:none;">status: ${result.status}</li>
+          <li style="list-style-type:none;">message: ${result.message}</li>
+        `;
+            //alert(result.message);
+            $('#product-result').show();
+            $('#container').html(template_bar);
+            fetchProducts();
         });
         }
         });
@@ -156,6 +163,14 @@ fetchProducts();
         $('#description').val(JSON.stringify(productData, null, 2));
         edit = true;
       }, 'json');
+      let template_bar = `
+          <li style="list-style-type:none;">status: ${response.status}</li>
+          <li style="list-style-type:none;">message: ${response.message}</li>
+        `;
+            //alert(result.message);
+            $('#product-result').show();
+            $('#container').html(template_bar);
+            fetchProducts();
     });
 
 });
