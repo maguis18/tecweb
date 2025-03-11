@@ -35,7 +35,42 @@
                   <input class="form-control" type="text" id="name" placeholder="Nombre de producto">
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" id="description" cols="30" rows="10" placeholder="JSON de producto"></textarea>
+                  <!--<textarea class="form-control" id="description" cols="30" rows="10" placeholder="JSON de producto"></textarea>-->
+                
+                <label for="form-marca" >Marca:</label>
+                <select id="form-marca" name="marca" required>
+                <option value="">Seleccionar</option>
+                <option value="Sylvanian Families">Sylvanian Families</option>
+                <option value="Honey Bee">Honey Bee</option>
+                <option value="Calico critters">Calico critters</option>
+                <option value="Chafarines">Chafarines</option>
+                <option value="Epoch">Epoch</option>
+                <option value="otra">Otra</option>
+                </select>
+                <span id="error-marca" class="error"></span>
+                <br>
+                <label for="form-modelo">Modelo:</label>
+                <input type="text" id="form-modelo" required maxlength="25" placeholder="Max 25 caracteres alfanuméricos"pattern="[A-Za-z0-9]+" name="modelo">
+                <span id="error-modelo" class="error"></span>
+
+                <br>
+                <label for="form-precio">Precio:</label>
+                <input type="number" id="form-precio" name="precio" required min="100" placeholder="Mayor a 99.9" step="0.01">
+                <span id="error-precio" class="error"></span>
+
+                <br>
+                <label for="form-detalles">Detalles:</label>
+                <br>
+                <textarea id="form-detalles"  maxlength="250" placeholder="Max 250 caracteres" name="detalles"></textarea>
+                <span id="error-detalles" class="error" ></span>
+                <br>
+                <label for="form-unidades">Unidades:</label>
+                <input type="number" id="form-unidades" required min="0" placeholder="No negativos" name="unidades">
+                <span id="error-unidades" class="error"></span>
+                <br>
+                <label for="form-image">Imagen del Producto:</label>
+                <input type="file" name="imagen" id="form-image" accept="image/*"></li>
+                <br>
                 </div>
                 <input type="hidden" id="productId">
                 <button class="btn btn-primary btn-block text-center" type="submit">
