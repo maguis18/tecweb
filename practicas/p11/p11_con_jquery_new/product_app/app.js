@@ -126,7 +126,7 @@ $(document).ready(function(){
         // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
         postData['nombre'] = $('#name').val();
         postData['id'] = $('#productId').val();
-
+        $('button.btn-primary').text("Agregar Producto");
         /**
          * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
          * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
@@ -168,7 +168,7 @@ $(document).ready(function(){
             });
         }
     });
-
+//editar producto
     $(document).on('click', '.product-item', (e) => {
         const element = $(this)[0].activeElement.parentElement.parentElement;
         const id = $(element).attr('productId');
@@ -190,6 +190,8 @@ $(document).ready(function(){
             
             // SE PONE LA BANDERA DE EDICIÓN EN true
             edit = true;
+            //line apara modificar el producto 
+            $('button.btn-primary').text("Modificar Producto");
         });
         e.preventDefault();
     });    
