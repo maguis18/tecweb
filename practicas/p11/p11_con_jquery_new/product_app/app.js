@@ -1,18 +1,7 @@
-// JSON BASE A MOSTRAR EN FORMULARIO
-var baseJSON = {
-    "precio": 0.0,
-    "unidades": 1,
-    "modelo": "XX-000",
-    "marca": "NA",
-    "detalles": "NA",
-    "imagen": "img/default.png"
-  };
+
 
 $(document).ready(function(){
     let edit = false;
-
-    let JsonString = JSON.stringify(baseJSON,null,2);
-    $('#description').val(JsonString);
     $('#product-result').hide();
     listarProductos();
 
@@ -31,20 +20,20 @@ $(document).ready(function(){
 
                     productos.forEach(producto => {
                         // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                        let descripcion = '';
-                        descripcion += '<li>precio: '+producto.precio+'</li>';
-                        descripcion += '<li>unidades: '+producto.unidades+'</li>';
-                        descripcion += '<li>modelo: '+producto.modelo+'</li>';
-                        descripcion += '<li>marca: '+producto.marca+'</li>';
-                        descripcion += '<li>detalles: '+producto.detalles+'</li>';
-                    
+                        let descripcion = `
+                            <li>precio: ${producto.precio}</li>
+                            <li>unidades: ${producto.unidades}</li>
+                            <li>modelo: ${producto.modelo}</li>
+                            <li>marca: ${producto.marca}</li>
+                            <li>detalles: ${producto.detalles}</li>
+                        `;
                         template += `
                             <tr productId="${producto.id}">
                                 <td>${producto.id}</td>
                                 <td><a href="#" class="product-item">${producto.nombre}</a></td>
                                 <td><ul>${descripcion}</ul></td>
                                 <td>
-                                    <button class="product-delete btn btn-danger" onclick="eliminarProducto()">
+                                    <button class="product-delete btn btn-danger">
                                         Eliminar
                                     </button>
                                 </td>
@@ -78,13 +67,13 @@ $(document).ready(function(){
 
                             productos.forEach(producto => {
                                 // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                                let descripcion = '';
-                                descripcion += '<li>precio: '+producto.precio+'</li>';
-                                descripcion += '<li>unidades: '+producto.unidades+'</li>';
-                                descripcion += '<li>modelo: '+producto.modelo+'</li>';
-                                descripcion += '<li>marca: '+producto.marca+'</li>';
-                                descripcion += '<li>detalles: '+producto.detalles+'</li>';
-                            
+                                let descripcion = `
+                                    <li>precio: ${producto.precio}</li>
+                                    <li>unidades: ${producto.unidades}</li>
+                                    <li>modelo: ${producto.modelo}</li>
+                                    <li>marca: ${producto.marca}</li>
+                                    <li>detalles: ${producto.detalles}</li>
+                                `;
                                 template += `
                                     <tr productId="${producto.id}">
                                         <td>${producto.id}</td>
@@ -152,17 +141,25 @@ $(document).ready(function(){
 }
 
         // SE CONVIERTE EL JSON DE STRING A OBJETO
-        let postData = JSON.parse( $('#description').val() );
-        // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
-        postData['nombre'] = $('#name').val();
-        postData['id'] = $('#productId').val();
+        
+        let postData = {
+            nombre: $('#name').val(),
+            marca: $('#form-marca').val(),
+            modelo: $('#form-modelo').val(),
+            precio: parseFloat($('#form-precio').val()),
+            unidades: parseInt($('#form-unidades').val()),
+            detalles: $('#form-detalles').val(),
+            imagen: $('#form-imagen').val(),
+            id: $('#productId').val()
+        };
+
         $('button.btn-primary').text("Agregar Producto");
 
   
         const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
         
         $.post(url, postData, (response) => {
-            //console.log(response);
+            console.log("Respuesta del servidor:", response);
             // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
             let respuesta = JSON.parse(response);
             // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
@@ -173,7 +170,8 @@ $(document).ready(function(){
                     `;
             // SE REINICIA EL FORMULARIO
             $('#name').val('');
-            $('#description').val(JsonString);
+            $('#product-form')[0].reset();
+            $('#productId').val('');
             // SE HACE VISIBLE LA BARRA DE ESTADO
             $('#product-result').show();
             // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
@@ -204,21 +202,17 @@ $(document).ready(function(){
             let product = JSON.parse(response);
             // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
             $('#name').val(product.nombre);
-            // EL ID SE INSERTA EN UN CAMPO OCULTO PARA USARLO DESPUÉS PARA LA ACTUALIZACIÓN
+            $('#form-marca').val(product.marca);
+            $('#form-modelo').val(product.modelo);
+            $('#form-precio').val(product.precio);
+            $('#form-detalles').val(product.detalles);
+            $('#form-unidades').val(product.unidades);
             $('#productId').val(product.id);
-            // SE ELIMINA nombre, eliminado E id PARA PODER MOSTRAR EL JSON EN EL <textarea>
-            delete(product.nombre);
-            delete(product.eliminado);
-            delete(product.id);
-            // SE CONVIERTE EL OBJETO JSON EN STRING
-            let JsonString = JSON.stringify(product,null,2);
-            // SE MUESTRA STRING EN EL <textarea>
-            $('#description').val(JsonString);
-            
-            // SE PONE LA BANDERA DE EDICIÓN EN true
-            edit = true;
+            $('#form-imagen').val(product.imagen);
+
             //line apara modificar el producto 
             $('button.btn-primary').text("Modificar Producto");
+            edit = true;
         });
         e.preventDefault();
     });    

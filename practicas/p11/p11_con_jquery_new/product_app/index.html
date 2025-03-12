@@ -30,7 +30,7 @@
           <div class="card">
             <div class="card-body">
               <!-- FORMULARIO PARA AGREGAR PRODUCTO -->
-              <form id="product-form" novalidate>
+              <form id="product-form" novalidate enctype="multipart/form-data">
                 <div class="form-group">
                   <input class="form-control" type="text" id="name" placeholder="Nombre de producto" required maxlength="100">
                   <span id="error-name" class="error"></span>
@@ -70,7 +70,7 @@
                 <span id="error-unidades" class="error"></span>
                 <br>
                 <label for="form-image">Imagen del Producto:</label>
-                <input type="file" name="imagen" id="form-image" accept="image/*"></li>
+                <input type="file" name="imagen" id="form-imagen" accept="image/*"></li>
                 <br>
                 </div>
                 <input type="hidden" id="productId">
