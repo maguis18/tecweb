@@ -121,17 +121,51 @@ $(document).ready(function(){
     $('#product-form').submit(e => {
         e.preventDefault();
 
+ // 1. Ocultar/memorizar mensaje anterior
+ $('.error').text('');
+
+ // 2. Referencias a los campos (DOM nativo)
+ const nombre   = $('#name')[0];
+ const marca    = $('#form-marca')[0];
+ const modelo   = $('#form-modelo')[0];
+ const precio   = $('#form-precio')[0];
+ const unidades = $('#form-unidades')[0];
+
+ // 3. Revisar validez (checkValidity())
+ let isValid = true;
+
+ if (!nombre.checkValidity()) {
+   $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
+   isValid = false;
+ }
+ if (!marca.checkValidity()) {
+   $('#error-marca').text('Selecciona una marca.');
+   isValid = false;
+ }
+ if (!modelo.checkValidity()) {
+   $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
+   isValid = false;
+ }
+ if (!precio.checkValidity()) {
+   $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
+   isValid = false;
+ }
+ if (!unidades.checkValidity()) {
+   $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
+   isValid = false;
+ }
+
+ // Si algo está mal, no seguir
+ if (!isValid) return;
+
         // SE CONVIERTE EL JSON DE STRING A OBJETO
         let postData = JSON.parse( $('#description').val() );
         // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
         postData['nombre'] = $('#name').val();
         postData['id'] = $('#productId').val();
         $('button.btn-primary').text("Agregar Producto");
-        /**
-         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
-         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
-         **/
 
+  
         const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
         
         $.post(url, postData, (response) => {
