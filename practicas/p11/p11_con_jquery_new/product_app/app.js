@@ -121,42 +121,35 @@ $(document).ready(function(){
     $('#product-form').submit(e => {
         e.preventDefault();
 
- // 1. Ocultar/memorizar mensaje anterior
+
  $('.error').text('');
 
- // 2. Referencias a los campos (DOM nativo)
- const nombre   = $('#name')[0];
- const marca    = $('#form-marca')[0];
- const modelo   = $('#form-modelo')[0];
- const precio   = $('#form-precio')[0];
- const unidades = $('#form-unidades')[0];
-
- // 3. Revisar validez (checkValidity())
- let isValid = true;
+ const nombre   = document.getElementById('name');
+  const marca    = document.getElementById('form-marca');
+  const modelo   = document.getElementById('form-modelo');
+  const precio   = document.getElementById('form-precio');
+  const unidades = document.getElementById('form-unidades');
 
  if (!nombre.checkValidity()) {
    $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
-   isValid = false;
  }
  if (!marca.checkValidity()) {
    $('#error-marca').text('Selecciona una marca.');
-   isValid = false;
  }
  if (!modelo.checkValidity()) {
    $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
-   isValid = false;
  }
  if (!precio.checkValidity()) {
    $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
-   isValid = false;
  }
  if (!unidades.checkValidity()) {
    $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
-   isValid = false;
  }
 
  // Si algo está mal, no seguir
- if (!isValid) return;
+ if ($('#product-form').find(':invalid').length > 0) {
+    return;
+}
 
         // SE CONVIERTE EL JSON DE STRING A OBJETO
         let postData = JSON.parse( $('#description').val() );
