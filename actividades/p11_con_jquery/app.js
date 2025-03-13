@@ -1,18 +1,5 @@
-// JSON BASE A MOSTRAR EN FORMULARIO
-var baseJSON = {
-  "precio": 0.0,
-  "unidades": 1,
-  "modelo": "XX-000",
-  "marca": "NA",
-  "detalles": "NA",
-  "imagen": "img/default.png"
-};
 
 function init() {
-  // Convierte el JSON a string para poder mostrarlo
-  var JsonString = JSON.stringify(baseJSON, null, 2);
-  console.log("Ejecutando init():", JsonString);
-  document.getElementById("description").value = JsonString;
   $('#product-result').hide();
 }
 
@@ -35,21 +22,26 @@ fetchProducts();
       type: 'GET',
       data: { search: search },
       success: function(response) {
-        var products = JSON.parse(response);
-        var listTemplate = '';
-        var tableTemplate = '';
-        products.forEach(product => {
-          // Construimos la lista para el contenedor (si lo deseas)
-          listTemplate += `<li><a href="#" class="product-item">${product.nombre}</a></li>`;
-          // Construimos las filas de la tabla
-          tableTemplate += `
-            <tr productId="${product.id}">
-              <td>${product.id}</td>
-              <td><a href="#" class="product-item">${product.nombre}</a></td>
-              <td>${product.detalles}</td>
-              <td><button class="product-delete btn btn-danger">Eliminar</button></td>
+        productos.forEach(producto => {
+        let descripcion = `
+            <li>precio: ${producto.precio}</li>
+            <li>unidades: ${producto.unidades}</li>
+            <li>modelo: ${producto.modelo}</li>
+            <li>marca: ${producto.marca}</li>
+            <li>detalles: ${producto.detalles}</li>
+          `;
+          template += `
+            <tr productId="${producto.id}">
+              <td>${producto.id}</td>
+              <td><a href="#" class="product-item">${producto.nombre}</a></td>
+              <td><ul>${descripcion}</ul></td>
+              <td>
+                <button class="product-delete btn btn-danger">Eliminar</button>
+                <button class="product-edit btn btn-warning">Editar</button>
+              </td>
             </tr>
           `;
+          template_bar += `<li>${producto.nombre}</li>`;
         });
         $('#product-result').show();
         $('#container').html(listTemplate);
@@ -59,46 +51,54 @@ fetchProducts();
   });
 
 
+
   // Evento de envío del formulario
   $('#product-form').submit(function(e) { 
     e.preventDefault();
-    let postData = JSON.parse($('#description').val());
-    postData['nombre'] = $('#name').val();
-    postData['id'] = $('#productId').val();
+    
+    if ($('#error-name-existe').text() !== '') {
+      alert('El nombre del producto ya existe. Por favor, elige otro nombre.');
+      return;
+    }
+
+    // Validar si hay campos inválidos
+    if ($('#product-form').find(':invalid').length > 0) {
+      $('#product-form').find(':invalid').trigger('focusout');
+      return;
+    }
+
+    // Crear el objeto con los datos del formulario
+    let postData = {
+      nombre: $('#name').val(),
+      marca: $('#form-marca').val(),
+      modelo: $('#form-modelo').val(),
+      precio: parseFloat($('#form-precio').val()),
+      unidades: parseInt($('#form-unidades').val()),
+      detalles: $('#form-detalles').val(),
+      imagen: $('#form-imagen').val(),
+      id: $('#productId').val()
+    };
 
     $('button.btn-primary').text("Agregar Producto");
     let url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
 
-
-
-    $.ajax({
-      url: url,
-      type: 'POST',
-      data: JSON.stringify(postData),
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json', // Esto fuerza a jQuery a parsear la respuesta como JSON
-      success: function(response) {
-        //console.log("Respuesta del servidor:", response);
-        let template_bar = `
+    $.post(url, postData, function(response) {
+      const respuesta = JSON.parse(response);
+      let template_bar = `
           <li style="list-style-type:none;">status: ${response.status}</li>
           <li style="list-style-type:none;">message: ${response.message}</li>
         `;
         $('#name').val('');
-        init(); // Restaura el JSON base en el textarea
-        $('#product-result').show();
-        $('#container').html(template_bar);
-        fetchProducts();
-        edit = false;
-      },
-      error: function(xhr, status, error) {
-        // En caso de que la petición no se realice correctamente (por ejemplo, error HTTP)
-        let template_bar = `
-          <li style="list-style-type:none;">status: error</li>
-          <li style="list-style-type:none;">message: ${error}</li>
-        `;
-        $('#product-result').show();
-        $('#container').html(template_bar);
-      }
+      $('#product-form')[0].reset();
+      $('#productId').val('');
+      $('#error-name-existe').text('');
+      // Mostrar la barra de estado
+      $('#product-result').show();
+      $('#container').html(template_bar);
+      // Actualizar la lista de productos
+      fetchProducts();
+      // Regresar la bandera de edición a false
+      edit = false;
     });
   });
 
@@ -112,6 +112,13 @@ fetchProducts();
           let products = JSON.parse(response);
           let template = '';
           products.forEach(product => {
+            let descripcion = `
+            <li>precio: ${producto.precio}</li>
+            <li>unidades: ${producto.unidades}</li>
+            <li>modelo: ${producto.modelo}</li>
+            <li>marca: ${producto.marca}</li>
+            <li>detalles: ${producto.detalles}</li>
+          `;
             template += `
             <tr productId="${product.id}">
               <td>${product.id}</td>
@@ -119,8 +126,7 @@ fetchProducts();
               <a href="#" class="product-item">
               ${product.nombre}
               </a>
-              </td>
-              <td>${product.detalles}</td>
+              <td><ul>${descripcion}</ul></td>
               <td>
                 <button class="product-delete btn btn-danger">Eliminar</button>
                 <button class="product-edit btn btn-warning">Editar</button>
