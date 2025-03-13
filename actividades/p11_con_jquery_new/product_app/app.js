@@ -109,6 +109,7 @@ $(document).ready(function(){
 //buscar nombre repetido
 $('#name').on('keyup', function() {
     const nombre = $(this).val().trim();
+    const productId = $('#productId').val();
     if (!this.checkValidity()) {
         $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
         $('#error-name-existe').text(''); // Limpiar mensaje de validación asíncrona
@@ -120,7 +121,9 @@ $('#name').on('keyup', function() {
         $.ajax({
             url: './backend/product-search_v2.php',
             type: 'GET',
-            data: { nombre: nombre },
+            data: { nombre: nombre ,
+                id: productId
+            },
             success: function(response) {
                 const data = JSON.parse(response);
                 if (data.exists) {
@@ -185,7 +188,10 @@ $('#name').on('keyup', function() {
     });
     $('#product-form').submit(e => {
         e.preventDefault();
-        
+        if ($('#error-name-existe').text() !== '') {
+            alert('El nombre del producto ya existe. Por favor, elige otro nombre.');
+            return;
+        }
         if ($('#product-form').find(':invalid').length > 0) {
             $('#product-form').find(':invalid').trigger('focusout');
             return;

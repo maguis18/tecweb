@@ -9,9 +9,14 @@ $data = array(
 // SE VERIFICA HABER RECIBIDO EL NOMBRE
 if (isset($_GET['nombre'])) {
     $nombre = $_GET['nombre'];
+    $id = $_GET['id'] ?? null;
 
 
     $sql = "SELECT COUNT(*) as count FROM productos WHERE nombre = '{$nombre}' AND eliminado = 0";
+    if ($id) {
+        $sql .= " AND id != '{$id}'";
+    }
+    
     if ($result = $conexion->query($sql)) {
         
         $row = $result->fetch_assoc();
