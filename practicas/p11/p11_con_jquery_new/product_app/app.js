@@ -106,13 +106,39 @@ $(document).ready(function(){
             $('#product-result').hide();
         }
     });
+//buscar nombre repetido
+$('#name').on('keyup', function() {
+    const nombre = $(this).val().trim();
+    if (nombre.length > 0) {
+        $.ajax({
+            url: './backend/product-search_v2.php',
+            type: 'GET',
+            data: { nombre: nombre },
+            success: function(response) {
+                const data = JSON.parse(response);
+                if (data.exists) {
+                    $('#error-name-existe').text('El nombre del producto ya existe.');
+                } else {
+                    $('#error-name-existe').text('');
+                }
+            },
+            error: function() {
+                $('#error-name-existe').text('Error al validar el nombre.');
+            }
+        });
+    } else {
+        $('#error-name-existe').text('');
+    }
+});
+
     $('#name').focusout(function() {
         if (!this.checkValidity()) {
             $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
         } else {
             $('#error-name').text('');
         }
-    });
+    }
+    );
 
     $('#form-marca').focusout(function() {
         if (!this.checkValidity()) {
@@ -211,6 +237,7 @@ $(document).ready(function(){
         const id = $(element).attr('productId');
         $.post('./backend/product-single.php', {id}, (response) => {
             // SE CONVIERTE A OBJETO EL JSON OBTENIDO
+            $('button.btn-primary').text("Modificar Producto");
             let product = JSON.parse(response);
             // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
             $('#name').val(product.nombre);
@@ -222,8 +249,6 @@ $(document).ready(function(){
             $('#productId').val(product.id);
             $('#form-imagen').val(product.imagen);
 
-            //line apara modificar el producto 
-            $('button.btn-primary').text("Modificar Producto");
             edit = true;
         });
         e.preventDefault();
