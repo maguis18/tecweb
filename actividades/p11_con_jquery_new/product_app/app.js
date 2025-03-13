@@ -109,6 +109,13 @@ $(document).ready(function(){
 //buscar nombre repetido
 $('#name').on('keyup', function() {
     const nombre = $(this).val().trim();
+    if (!this.checkValidity()) {
+        $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
+        $('#error-name-existe').text(''); // Limpiar mensaje de validación asíncrona
+        return; // Detener la ejecución si la validación básica falla
+    } else {
+        $('#error-name').text(''); // Limpiar mensaje de validación básica si es válido
+    }
     if (nombre.length > 0) {
         $.ajax({
             url: './backend/product-search_v2.php',
@@ -117,10 +124,13 @@ $('#name').on('keyup', function() {
             success: function(response) {
                 const data = JSON.parse(response);
                 if (data.exists) {
+                    
                     $('#error-name-existe').text('El nombre del producto ya existe.');
                 return;
                 } else {
+                    $('#error-name').text('Nombre válido.');
                     $('#error-name-existe').text('');
+                    
                 }
             },
             error: function() {
@@ -128,24 +138,25 @@ $('#name').on('keyup', function() {
             }
         });
     } else {
+        $('#error-name').text('');
         $('#error-name-existe').text('');
     }
 });
 
-    $('#name').focusout(function() {
+    /*$('#name').focusout(function() {
         if (!this.checkValidity()) {
             $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
         } else {
             $('#error-name').text('');
         }
     }
-    );
+    );*/
 
     $('#form-marca').focusout(function() {
         if (!this.checkValidity()) {
             $('#error-marca').text('Selecciona una marca.');
         } else {
-            $('#error-marca').text('');
+            $('#error-marca').text('Marca valida.');
         }
     });
 
@@ -153,7 +164,7 @@ $('#name').on('keyup', function() {
         if (!this.checkValidity()) {
             $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
         } else {
-            $('#error-modelo').text('');
+            $('#error-modelo').text('Modelo valido.');
         }
     });
 
@@ -161,7 +172,7 @@ $('#name').on('keyup', function() {
         if (!this.checkValidity()) {
             $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
         } else {
-            $('#error-precio').text('');
+            $('#error-precio').text('Precio valido.');
         }
     });
 
@@ -169,7 +180,7 @@ $('#name').on('keyup', function() {
         if (!this.checkValidity()) {
             $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
         } else {
-            $('#error-unidades').text('');
+            $('#error-unidades').text('Unidades validas.');
         }
     });
     $('#product-form').submit(e => {
