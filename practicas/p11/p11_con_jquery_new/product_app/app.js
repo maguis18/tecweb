@@ -118,6 +118,7 @@ $('#name').on('keyup', function() {
                 const data = JSON.parse(response);
                 if (data.exists) {
                     $('#error-name-existe').text('El nombre del producto ya existe.');
+                return;
                 } else {
                     $('#error-name-existe').text('');
                 }
@@ -210,6 +211,7 @@ $('#name').on('keyup', function() {
             $('#name').val('');
             $('#product-form')[0].reset();
             $('#productId').val('');
+            $('#error-name-existe').text('');
             // SE HACE VISIBLE LA BARRA DE ESTADO
             $('#product-result').show();
             // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
@@ -248,7 +250,7 @@ $('#name').on('keyup', function() {
             $('#form-unidades').val(product.unidades);
             $('#productId').val(product.id);
             $('#form-imagen').val(product.imagen);
-
+            $('#error-name-existe').text('');
             edit = true;
         });
         e.preventDefault();
