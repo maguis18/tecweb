@@ -106,49 +106,48 @@ $(document).ready(function(){
             $('#product-result').hide();
         }
     });
+    $('#name').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
+        } else {
+            $('#error-name').text('');
+        }
+    });
 
+    $('#form-marca').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-marca').text('Selecciona una marca.');
+        } else {
+            $('#error-marca').text('');
+        }
+    });
+
+    $('#form-modelo').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
+        } else {
+            $('#error-modelo').text('');
+        }
+    });
+
+    $('#form-precio').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
+        } else {
+            $('#error-precio').text('');
+        }
+    });
+
+    $('#form-unidades').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
+        } else {
+            $('#error-unidades').text('');
+        }
+    });
     $('#product-form').submit(e => {
         e.preventDefault();
         
-        $('#name').focusout(function() {
-            if (!this.checkValidity()) {
-                $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
-            } else {
-                $('#error-name').text('');
-            }
-        });
-    
-        $('#form-marca').focusout(function() {
-            if (!this.checkValidity()) {
-                $('#error-marca').text('Selecciona una marca.');
-            } else {
-                $('#error-marca').text('');
-            }
-        });
-    
-        $('#form-modelo').focusout(function() {
-            if (!this.checkValidity()) {
-                $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
-            } else {
-                $('#error-modelo').text('');
-            }
-        });
-    
-        $('#form-precio').focusout(function() {
-            if (!this.checkValidity()) {
-                $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
-            } else {
-                $('#error-precio').text('');
-            }
-        });
-    
-        $('#form-unidades').focusout(function() {
-            if (!this.checkValidity()) {
-                $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
-            } else {
-                $('#error-unidades').text('');
-            }
-        });
         if ($('#product-form').find(':invalid').length > 0) {
             $('#product-form').find(':invalid').trigger('focusout');
             return;
