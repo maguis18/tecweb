@@ -65,6 +65,8 @@ fetchProducts();
     let postData = JSON.parse($('#description').val());
     postData['nombre'] = $('#name').val();
     postData['id'] = $('#productId').val();
+
+    $('button.btn-primary').text("Agregar Producto");
     let url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
 
 
@@ -153,6 +155,7 @@ fetchProducts();
       let id = $(element).attr('productId');
       $.post('backend/product-single.php', { id }, function(response) {
         // Asigna el nombre al input correspondiente y el id al campo oculto
+        $('button.btn-primary').text("Modificar Producto");
         $('#name').val(response.nombre);
         $('#productId').val(response.id);
         
