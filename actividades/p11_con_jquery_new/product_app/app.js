@@ -146,14 +146,14 @@ $('#name').on('keyup', function() {
     }
 });
 
-    /*$('#name').focusout(function() {
+    $('#name').focusout(function() {
         if (!this.checkValidity()) {
             $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
         } else {
             $('#error-name').text('');
         }
     }
-    );*/
+    );
 
     $('#form-marca').focusout(function() {
         if (!this.checkValidity()) {
@@ -189,7 +189,7 @@ $('#name').on('keyup', function() {
     $('#product-form').submit(e => {
         e.preventDefault();
         if ($('#error-name-existe').text() !== '') {
-            alert('El nombre del producto ya existe. Por favor, elige otro nombre.');
+            //alert('El nombre del producto ya existe. Por favor, elige otro nombre.');
             return;
         }
         if ($('#product-form').find(':invalid').length > 0) {
@@ -225,6 +225,12 @@ $('#name').on('keyup', function() {
                         <li style="list-style: none;">message: ${respuesta.message}</li>
                     `;
             // SE REINICIA EL FORMULARIO
+            $('#error-name').text('');
+            $('#error-name-existe').text('');
+            $('#error-marca').text('');
+            $('#error-modelo').text('');
+            $('#error-precio').text('');
+            $('#error-unidades').text('');
             $('#name').val('');
             $('#product-form')[0].reset();
             $('#productId').val('');
