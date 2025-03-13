@@ -107,38 +107,55 @@ $(document).ready(function(){
         }
     });
 
+
+    $('#name').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
+        } else {
+            $('#error-name').text('');
+        }
+    });
+
+    $('#form-marca').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-marca').text('Selecciona una marca.');
+        } else {
+            $('#error-marca').text('');
+        }
+    });
+
+    $('#form-modelo').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
+        } else {
+            $('#error-modelo').text('');
+        }
+    });
+
+    $('#form-precio').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
+        } else {
+            $('#error-precio').text('');
+        }
+    });
+
+    $('#form-unidades').focusout(function() {
+        if (!this.checkValidity()) {
+            $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
+        } else {
+            $('#error-unidades').text('');
+        }
+    });
+
     $('#product-form').submit(e => {
         e.preventDefault();
 
+        // Realiza la validación final y manejo del envío aquí
+        if ($('#product-form').find(':invalid').length > 0) {
+            return;
+        }
 
- $('.error').text('');
-
- const nombre   = document.getElementById('name');
-  const marca    = document.getElementById('form-marca');
-  const modelo   = document.getElementById('form-modelo');
-  const precio   = document.getElementById('form-precio');
-  const unidades = document.getElementById('form-unidades');
-
- if (!nombre.checkValidity()) {
-   $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
- }
- if (!marca.checkValidity()) {
-   $('#error-marca').text('Selecciona una marca.');
- }
- if (!modelo.checkValidity()) {
-   $('#error-modelo').text('Modelo obligatorio, máximo 25 caracteres alfanuméricos.');
- }
- if (!precio.checkValidity()) {
-   $('#error-precio').text('Precio obligatorio, debe ser mayor a 99.9.');
- }
- if (!unidades.checkValidity()) {
-   $('#error-unidades').text('Unidades obligatorias, no pueden ser negativas.');
- }
-
- // Si algo está mal, no seguir
- if ($('#product-form').find(':invalid').length > 0) {
-    return;
-}
 
         // SE CONVIERTE EL JSON DE STRING A OBJETO
         
