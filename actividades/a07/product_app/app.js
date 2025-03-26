@@ -109,36 +109,32 @@ $(document).ready(function(){
 //buscar nombre repetido
 $('#name').on('keyup', function() {
     const nombre = $(this).val().trim();
-    const productId = $('#productId').val();
+    //const productId = $('#productId').val();
     if (!this.checkValidity()) {
         $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
         $('#error-name-existe').text(''); // Limpiar mensaje de validación asíncrona
         return; // Detener la ejecución si la validación básica falla
     } else {
-        $('#error-name').text(''); // Limpiar mensaje de validación básica si es válido
+        $('#error-name').text('Nombre valido'); // Limpiar mensaje de validación básica si es válido
     }
     if (nombre.length > 0) {
         $.ajax({
-            url: './backend/product-search_v2.php',
+            url: './backend/product-singlebyname.php',
             type: 'GET',
             data: { nombre: nombre ,
-                id: productId
+                //id: productId
             },
             success: function(response) {
-                const data = JSON.parse(response);
-                if (data.exists) {
-                    
-                    $('#error-name-existe').text('El nombre del producto ya existe.');
-                return;
+                const productos = JSON.parse(response);
+                if(Object.keys(productos).length > 0) {
+                    // Si hay productos con el mismo nombre, mostrar error
+                    $('#error-name').text('El nombre del producto ya existe.');
+                    //$('#product-result').show();
                 } else {
-                    $('#error-name').text('Nombre válido.');
-                    $('#error-name-existe').text('');
-                    
+                    // Si no hay productos con el mismo nombre, limpiar el mensaje de error
+                    $('#error-name').text('Nombre valido');
                 }
             },
-            error: function() {
-                $('#error-name-existe').text('Error al validar el nombre.');
-            }
         });
     } else {
         $('#error-name').text('');
@@ -146,14 +142,14 @@ $('#name').on('keyup', function() {
     }
 });
 
-    $('#name').focusout(function() {
+    /*$('#name').focusout(function() {
         if (!this.checkValidity()) {
             $('#error-name').text('Nombre obligatorio, máximo 100 caracteres.');
         } else {
             $('#error-name').text('');
         }
     }
-    );
+    );*/
 
     $('#form-marca').focusout(function() {
         if (!this.checkValidity()) {
