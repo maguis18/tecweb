@@ -247,8 +247,13 @@ $('#name').on('keyup', function() {
             const element = $(this)[0].activeElement.parentElement.parentElement;
             const id = $(element).attr('productId');
             $.post('./backend/product-delete.php', {id}, (response) => {
-                $('#product-result').hide();
-                listarProductos();
+                const result = JSON.parse(response);
+                let template_bar = `
+                    <li style="list-style-type:none;">status: ${result.status}</li>
+                    <li style="list-style-type:none;">message: ${result.message}</li>
+                `;
+                $('#product-result').show();
+                $('#container').html(template_bar);
             });
         }
     });

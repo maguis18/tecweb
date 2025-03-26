@@ -73,9 +73,8 @@ public function delete($id) {
 		} else {
             $this->data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($this->conexion);
         }
+        $this->conexion->close();
         return $this->getData();
-		//$this->conexion->close();
-        //return json_encode($this->data, JSON_PRETTY_PRINT);
     } 
 
 
