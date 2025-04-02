@@ -1,4 +1,3 @@
-index php 
 <?php
 // backend/index.php
 
@@ -13,4 +12,32 @@ use function TECWEB\BACKEND\Controllers\editarProducto;
 use function TECWEB\BACKEND\Controllers\buscarProducto;
 use function TECWEB\BACKEND\Controllers\obtenerProducto;
 use function TECWEB\BACKEND\Controllers\obtenerProductoPorNombre;
+$action = isset($_GET['action']) ? $_GET['action'] : 'list';
+
+switch ($action) {
+    case 'list':
+        listarProductos();
+        break;
+    case 'add':
+        agregarProducto();
+        break;
+    case 'delete':
+        eliminarProducto();
+        break;
+    case 'edit':
+        editarProducto();
+        break;
+    case 'search':
+        buscarProducto();
+        break;
+    case 'single':
+        obtenerProducto();
+        break;
+    case 'singlebyname':
+        obtenerProductoPorNombre();
+        break;
+    default:
+        echo json_encode(["status" => "error", "message" => "Acción no válida"]);
+        break;
+}
 ?>
