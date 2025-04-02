@@ -1,7 +1,7 @@
 <?php
 require_once '../models/products.php';
 
-use tec_Web\myapi\Products as Products;
+use tec_Web\myapi\products as Products;
 
 // Instancia del modelo
 $product = new Products('marketzone');
