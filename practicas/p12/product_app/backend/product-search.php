@@ -1,8 +1,8 @@
 <?php
-    use TECWEB\MYAPI\Products;
-    require_once __DIR__.'/myapi/Products.php';
+    use TECWEB\MYAPI\Read;
+    require_once __DIR__.'/Read/Read.php';
 
-    $productos = new Products('marketzone');
+    $productos = new Read('marketzone');
     $productos->search( $_GET['search'] );
     echo $productos->getData();
 ?>

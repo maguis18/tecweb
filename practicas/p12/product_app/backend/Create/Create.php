@@ -1,14 +1,15 @@
 <?php
 namespace TECWEB\MYAPI;
 
-require_once __DIR__ . '/DataBase.php';
+require_once __DIR__ . '/../myapi/DataBase.php';
 
-class Create extends Database{
+class Create extends DataBase{
     public function __construct($db, $user='root', $pass='gatin_123')
     {
         $this->data = array();
         parent::__construct($db, $user, $pass);
     }
+
     public function add($jsonOBJ) {
         // SE OBTIENE LA INFORMACIÓN DEL PRODUCTO ENVIADA POR EL CLIENTE
         $this->data = array(
