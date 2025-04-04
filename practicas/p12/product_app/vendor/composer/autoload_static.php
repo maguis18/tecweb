@@ -9,12 +9,12 @@ class ComposerStaticInit5448e05a5a64fe842856604fbc420654
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
-            'TECWEB\\MYAPI\\' => 13,
+            'TECWEB\\BACKEND\\' => 15,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'TECWEB\\MYAPI\\' => 
+        'TECWEB\\BACKEND\\' => 
         array (
             0 => __DIR__ . '/../..' . '/backend',
         ),
@@ -22,11 +22,11 @@ class ComposerStaticInit5448e05a5a64fe842856604fbc420654
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'TECWEB\\MYAPI\\Create\\Create' => __DIR__ . '/../..' . '/backend/Create/Create.php',
-        'TECWEB\\MYAPI\\DataBase\\DataBase' => __DIR__ . '/../..' . '/backend/DataBase/DataBase.php',
-        'TECWEB\\MYAPI\\Delete\\Delete' => __DIR__ . '/../..' . '/backend/Delete/Delete.php',
-        'TECWEB\\MYAPI\\Read\\Read' => __DIR__ . '/../..' . '/backend/Read/Read.php',
-        'TECWEB\\MYAPI\\Update\\Update' => __DIR__ . '/../..' . '/backend/Update/Update.php',
+        'TECWEB\\BACKEND\\Create\\Create' => __DIR__ . '/../..' . '/backend/Create/Create.php',
+        'TECWEB\\BACKEND\\DataBase\\DataBase' => __DIR__ . '/../..' . '/backend/DataBase/DataBase.php',
+        'TECWEB\\BACKEND\\Delete\\Delete' => __DIR__ . '/../..' . '/backend/Delete/Delete.php',
+        'TECWEB\\BACKEND\\Read\\Read' => __DIR__ . '/../..' . '/backend/Read/Read.php',
+        'TECWEB\\BACKEND\\Update\\Update' => __DIR__ . '/../..' . '/backend/Update/Update.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

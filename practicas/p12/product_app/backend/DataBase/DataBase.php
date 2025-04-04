@@ -1,5 +1,5 @@
 <?php
-namespace TECWEB\MYAPI\DataBase;
+namespace TECWEB\BACKEND\DataBase;
 
 //considerar si se pasa como default "marketzone"
 abstract class DataBase {

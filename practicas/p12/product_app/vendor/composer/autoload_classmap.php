@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'TECWEB\\MYAPI\\Create\\Create' => $baseDir . '/backend/Create/Create.php',
-    'TECWEB\\MYAPI\\DataBase\\DataBase' => $baseDir . '/backend/DataBase/DataBase.php',
-    'TECWEB\\MYAPI\\Delete\\Delete' => $baseDir . '/backend/Delete/Delete.php',
-    'TECWEB\\MYAPI\\Read\\Read' => $baseDir . '/backend/Read/Read.php',
-    'TECWEB\\MYAPI\\Update\\Update' => $baseDir . '/backend/Update/Update.php',
+    'TECWEB\\BACKEND\\Create\\Create' => $baseDir . '/backend/Create/Create.php',
+    'TECWEB\\BACKEND\\DataBase\\DataBase' => $baseDir . '/backend/DataBase/DataBase.php',
+    'TECWEB\\BACKEND\\Delete\\Delete' => $baseDir . '/backend/Delete/Delete.php',
+    'TECWEB\\BACKEND\\Read\\Read' => $baseDir . '/backend/Read/Read.php',
+    'TECWEB\\BACKEND\\Update\\Update' => $baseDir . '/backend/Update/Update.php',
 );

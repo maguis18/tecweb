@@ -1,6 +1,6 @@
 <?php
-namespace TECWEB\MYAPI\Delete;
-use TECWEB\MYAPI\DataBase\DataBase;
+namespace TECWEB\BACKEND\Delete;
+use TECWEB\BACKEND\DataBase\DataBase;
 
 
 class Delete extends DataBase

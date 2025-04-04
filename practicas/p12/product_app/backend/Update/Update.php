@@ -1,6 +1,6 @@
 <?php
-namespace TECWEB\MYAPI\Update;
-use TECWEB\MYAPI\DataBase\DataBase;
+namespace TECWEB\BACKEND\Update;
+use TECWEB\BACKEND\DataBase\DataBase;
 class Update extends DataBase
 {
     public function __construct($db, $user='root', $pass='gatin_123')

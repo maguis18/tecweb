@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'TECWEB\\MYAPI\\' => array($baseDir . '/backend'),
+    'TECWEB\\BACKEND\\' => array($baseDir . '/backend'),
 );
