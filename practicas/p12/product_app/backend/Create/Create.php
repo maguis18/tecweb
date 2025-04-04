@@ -1,7 +1,6 @@
 <?php
-namespace TECWEB\MYAPI;
-
-require_once __DIR__ . '/../DataBase/DataBase.php';
+namespace TECWEB\MYAPI\Create;
+use TECWEB\MYAPI\DataBase\DataBase;
 
 class Create extends DataBase{
     public function __construct($db, $user='root', $pass='gatin_123')

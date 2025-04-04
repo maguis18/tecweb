@@ -22,6 +22,11 @@ class ComposerStaticInit5448e05a5a64fe842856604fbc420654
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'TECWEB\\MYAPI\\Create\\Create' => __DIR__ . '/../..' . '/backend/Create/Create.php',
+        'TECWEB\\MYAPI\\DataBase\\DataBase' => __DIR__ . '/../..' . '/backend/DataBase/DataBase.php',
+        'TECWEB\\MYAPI\\Delete\\Delete' => __DIR__ . '/../..' . '/backend/Delete/Delete.php',
+        'TECWEB\\MYAPI\\Read\\Read' => __DIR__ . '/../..' . '/backend/Read/Read.php',
+        'TECWEB\\MYAPI\\Update\\Update' => __DIR__ . '/../..' . '/backend/Update/Update.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
