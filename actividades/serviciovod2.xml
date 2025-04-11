@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CatalogoVOD>
+    <cuenta correo="">
+        <perfiles>
+            <perfil usuario="Magui Reyes" idioma="Español latinoamerica" />
+            <perfil usuario="Checo Perez" idioma="Español latinoamerica" />
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas>
+            <genero nombre="Terror">
+                <titulo duracion="104 minutos">
+                    <nombre>Misery</nombre>
+                </titulo>
+                <titulo duracion="127 minutos">
+                    <nombre>La niebla</nombre>
+                </titulo>
+                <titulo duracion="93 minutos">
+                    <nombre>No profanar el sueño de los muertos</nombre>
+                </titulo>
+                <titulo duracion="115 minutos">
+                    <nombre>Audition</nombre>
+                </titulo>
+            </genero>
+            <genero nombre="Romance">
+                <titulo duracion="90 minutos">
+                    <nombre>Flipped</nombre>
+                </titulo>
+                <titulo duracion="123 minutos">
+                    <nombre>Cuestión de Tiempo</nombre>
+                </titulo>
+                <titulo duracion="128 minutos">
+                    <nombre>LALALAND</nombre>
+                </titulo>
+                <titulo duracion="110 minutos">
+                    <nombre>Yo antes de ti</nombre>
+                </titulo>
+            </genero>
+        </peliculas>
+        <programas>
+            <genero nombre="Comedia">
+                <titulo duracion="23 minutos">
+                    <nombre>Friends</nombre>
+                </titulo>
+                <titulo duracion="24 minutos">
+                    <nombre>Vecinos</nombre>
+                </titulo>
+                <titulo duracion="54 minutos">
+                    <nombre>Me caigo de risa</nombre>
+                </titulo>
+                <titulo duracion="22 minutos">
+                    <nombre>The big bang theory</nombre>
+                </titulo>
+            </genero>
+            <genero nombre="Reality show de concursos">
+                <titulo duracion="180 minutos">
+                    <nombre>Exatlon</nombre>
+                </titulo>
+                <titulo duracion="60 minutos">
+                    <nombre>Hombre al agua</nombre>
+                </titulo>
+                <titulo duracion="110 minutos">
+                    <nombre>4 elementos</nombre>
+                </titulo>
+                <titulo duracion="90 minutos">
+                    <nombre>Guerreros</nombre>
+                </titulo>
+            </genero>
+        </programas>
+    </contenido>
+</CatalogoVOD>

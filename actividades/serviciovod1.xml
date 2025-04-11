@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CatalogoVOD>
+    <cuenta>
+        <correo></correo>
+        <perfiles>
+            <perfil>
+                <usuario>Magui Reyes</usuario>
+                <idioma>Español latinoamerica</idioma>
+            </perfil>
+            <perfil>
+                <usuario>Checo Perez</usuario>
+                <idioma>Español latinoamerica</idioma>
+            </perfil>
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas>
+            <genero>
+                <nombre>Terror</nombre>
+                <titulo>
+                    <nombre>Misery</nombre>
+                    <duracion>104 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>La niebla</nombre>
+                    <duracion>127 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>No profanar el sueño de los muertos</nombre>
+                    <duracion>93 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Audition</nombre>
+                    <duracion>115 minutos</duracion>
+                </titulo>
+            </genero>
+            <genero>
+                <nombre>Romance</nombre>
+                <titulo>
+                    <nombre>Flipped</nombre>
+                    <duracion>90 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Cuestión de Tiempo</nombre>
+                    <duracion>123 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>LALALAND</nombre>
+                    <duracion>128 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Yo antes de ti</nombre>
+                    <duracion>110 minutos</duracion>
+                </titulo>
+            </genero>
+        </peliculas>
+        <programas>
+            <genero>
+                <nombre>Comedia</nombre>
+                <titulo>
+                    <nombre>Friends</nombre>
+                    <duracion>23 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Vecinos</nombre>
+                    <duracion>24 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Me caigo de risa</nombre>
+                    <duracion>54 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The big bang theory</nombre>
+                    <duracion>22 minutos</duracion>
+                </titulo>
+            </genero>
+            <genero>
+                <nombre>Animadas</nombre>
+                <titulo>
+                    <nombre>BoJack Horseman</nombre>
+                    <duracion>25 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Rick y Morty</nombre>
+                    <duracion>22 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Invincible</nombre>
+                    <duracion>42 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Love, Death and Robots</nombre>
+                    <duracion>21 minutos</duracion>
+                </titulo>
+            </genero>
+        </programas>
+    </contenido>
+</CatalogoVOD>
