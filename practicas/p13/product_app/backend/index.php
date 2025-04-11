@@ -23,5 +23,15 @@ $app->post("/pruebapost",function(Request $request, Response $response, $args){
     $response->getBody()->write("Valores: ". $val1 . " " . $val2);
     return $response;
 });
+
+$app->get("/testjson",function(Request $request, Response $response, $args){
+    $reqPost=$request->getQueryParams();
+
+    $data[0]["nombre"]=$reqPost["nombre"];
+    $data[0]["apellidos"]=$reqPost["apellidos"];
+
+    $response->getBody()->write(json_encode($data,JSON_PRETTY_PRINT));
+    return $response;
+});
 $app->run();
 ?>
