@@ -7,7 +7,7 @@ abstract class DataBase {
     protected $data;
 
     public function __construct($db, $user, $pass) {
-        $this->conexion = @mysqli_connect(
+        $this->conexion= @mysqli_connect(
             'localhost',
             $user,
             $pass,
@@ -20,6 +20,7 @@ abstract class DataBase {
         if(!$this->conexion) {
             die('¡Base de datos NO conextada!');
         }
+        #$this->conexion->set_charset("utf8");
         $this->data = [];
     }
     public function getData() {

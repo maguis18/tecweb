@@ -6,7 +6,7 @@ var baseJSON = {
     "marca": "NA",
     "detalles": "NA",
     "imagen": "img/default.png"
-  };
+};
 
 $(document).ready(function(){
     let edit = false;
@@ -18,14 +18,13 @@ $(document).ready(function(){
 
     function listarProductos() {
         $.ajax({
-            url: './backend/product-list.php',
+            url: 'http://localhost/tecweb/actividades/a09/product_app/backend/products',
             type: 'GET',
-            success: function(response) {
-                console.log(response);
+            dataType: 'json',
+            success: function(productos) {
                 // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                const productos = JSON.parse(response);
-            
-                // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
+                //const productos = JSON.parse(response);
+                //console.log("Respuesta cruda:", response); 
                 if(Object.keys(productos).length > 0) {
                     // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
                     let template = '';
@@ -63,7 +62,7 @@ $(document).ready(function(){
         if($('#search').val()) {
             let search = $('#search').val();
             $.ajax({
-                url: './backend/product-search.php?search='+$('#search').val(),
+                url: 'http://localhost/tecweb/actividades/a09/product_app/backend/products/#search',
                 data: {search},
                 type: 'GET',
                 success: function (response) {

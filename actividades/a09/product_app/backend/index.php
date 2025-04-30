@@ -9,6 +9,7 @@ use TECWEB\BACKEND\Delete\Delete;
 require '../vendor/autoload.php';
 $app = AppFactory::create();
 $app->setBasepath("/tecweb/actividades/a09/product_app/backend");
+
 $app->get('/product/{id}', function(Request $request, Response $response, $args) {
     $productos = new Read('marketzone');
     $productos->single($args['id']);
@@ -16,7 +17,7 @@ $app->get('/product/{id}', function(Request $request, Response $response, $args)
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// 🔹 GET /products → Listar todos los productos
+//para listar
 $app->get('/products', function(Request $request, Response $response) {
     $productos = new Read('marketzone');
     $productos->list();
@@ -24,7 +25,7 @@ $app->get('/products', function(Request $request, Response $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// 🔹 GET /products/{search} → Buscar productos por término
+//para buscar
 $app->get('/products/{search}', function(Request $request, Response $response, $args) {
     $productos = new Read('marketzone');
     $productos->search($args['search']);
@@ -32,7 +33,7 @@ $app->get('/products/{search}', function(Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// 🔹 POST /product → Agregar producto
+// para agregar un producto
 $app->post('/product', function(Request $request, Response $response) {
     $data = json_decode(json_encode($request->getParsedBody()));
     $productos = new Create('marketzone');
@@ -40,8 +41,7 @@ $app->post('/product', function(Request $request, Response $response) {
     $response->getBody()->write($productos->getData());
     return $response->withHeader('Content-Type', 'application/json');
 });
-
-// 🔹 PUT /product → Editar producto
+//para editar
 $app->put('/product', function(Request $request, Response $response) {
     $data = json_decode(json_encode($request->getParsedBody()));
     $productos = new Update('marketzone');
@@ -50,7 +50,7 @@ $app->put('/product', function(Request $request, Response $response) {
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// 🔹 DELETE /product → Eliminar producto
+//para eliminar
 $app->delete('/product', function(Request $request, Response $response) {
     $data = json_decode(json_encode($request->getParsedBody()));
     $productos = new Delete('marketzone');
@@ -58,7 +58,5 @@ $app->delete('/product', function(Request $request, Response $response) {
     $response->getBody()->write($productos->getData());
     return $response->withHeader('Content-Type', 'application/json');
 });
-
 $app->run();
-
 ?>
