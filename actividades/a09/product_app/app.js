@@ -62,58 +62,45 @@ $(document).ready(function(){
         if($('#search').val()) {
             let search = $('#search').val();
             $.ajax({
-                url: 'http://localhost/tecweb/actividades/a09/product_app/backend/products/#search',
+                url: 'http://localhost/tecweb/actividades/a09/product_app/backend/products/' + encodeURIComponent(search),
                 data: {search},
                 type: 'GET',
-                success: function (response) {
-                    if(!response.error) {
-                        // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                        const productos = JSON.parse(response);
-                        
-                        // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
-                        if(Object.keys(productos).length > 0) {
-                            // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
-                            let template = '';
-                            let template_bar = '';
+                dataType: 'json',
+                success: function (productos) {
+                    if (Object.keys(productos).length > 0) {
+                        let template = '';
+                        let template_bar = '';
 
-                            productos.forEach(producto => {
-                                // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                                let descripcion = '';
-                                descripcion += '<li>precio: '+producto.precio+'</li>';
-                                descripcion += '<li>unidades: '+producto.unidades+'</li>';
-                                descripcion += '<li>modelo: '+producto.modelo+'</li>';
-                                descripcion += '<li>marca: '+producto.marca+'</li>';
-                                descripcion += '<li>detalles: '+producto.detalles+'</li>';
-                            
-                                template += `
-                                    <tr productId="${producto.id}">
-                                        <td>${producto.id}</td>
-                                        <td><a href="#" class="product-item">${producto.nombre}</a></td>
-                                        <td><ul>${descripcion}</ul></td>
-                                        <td>
-                                            <button class="product-delete btn btn-danger">
-                                                Eliminar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `;
+                        productos.forEach(producto => {
+                            let descripcion = `
+                                <li>precio: ${producto.precio}</li>
+                                <li>unidades: ${producto.unidades}</li>
+                                <li>modelo: ${producto.modelo}</li>
+                                <li>marca: ${producto.marca}</li>
+                                <li>detalles: ${producto.detalles}</li>`;
 
-                                template_bar += `
-                                    <li>${producto.nombre}</il>
-                                `;
-                            });
-                            // SE HACE VISIBLE LA BARRA DE ESTADO
-                            $('#product-result').show();
-                            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                            $('#container').html(template_bar);
-                            // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
-                            $('#products').html(template);    
-                        }
+                            template += `
+                                <tr productId="${producto.id}">
+                                    <td>${producto.id}</td>
+                                    <td><a href="#" class="product-item">${producto.nombre}</a></td>
+                                    <td><ul>${descripcion}</ul></td>
+                                    <td>
+                                        <button class="product-delete btn btn-danger">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>`;
+
+                            template_bar += `<li>${producto.nombre}</li>`;
+                        });
+
+                        $('#product-result').show();
+                        $('#container').html(template_bar);
+                        $('#products').html(template);
                     }
                 }
             });
-        }
-        else {
+        } else {
             $('#product-result').hide();
         }
     });
@@ -127,13 +114,9 @@ $(document).ready(function(){
         postData['nombre'] = $('#name').val();
         postData['id'] = $('#productId').val();
 
-        /**
-         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
-         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
-         **/
+        const url = 'http://localhost/tecweb/actividades/a09/product_app/backend/product';
+        const method = edit ? 'PUT' : 'POST';
 
-        const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
-        
         $.post(url, postData, (response) => {
             console.log(response);
             // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
