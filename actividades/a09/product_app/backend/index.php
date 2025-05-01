@@ -8,6 +8,7 @@ use TECWEB\BACKEND\Update\Update;
 use TECWEB\BACKEND\Delete\Delete;
 require '../vendor/autoload.php';
 $app = AppFactory::create();
+$app->addBodyParsingMiddleware();
 $app->setBasepath("/tecweb/actividades/a09/product_app/backend");
 
 $app->get('/product/{id}', function(Request $request, Response $response, $args) {

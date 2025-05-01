@@ -107,53 +107,54 @@ $(document).ready(function(){
 
     $('#product-form').submit(e => {
         e.preventDefault();
-
-        // SE CONVIERTE EL JSON DE STRING A OBJETO
-        let postData = JSON.parse( $('#description').val() );
-        // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
-        postData['nombre'] = $('#name').val();
-        postData['id'] = $('#productId').val();
-
-        const url = 'http://localhost/tecweb/actividades/a09/product_app/backend/product';
+    
+        // Convierte el textarea en objeto
+        const postData = JSON.parse($('#description').val());
+        postData.nombre = $('#name').val();
+        postData.id     = $('#productId').val();  // "" cuando es alta
+    
+        const url    = 'http://localhost/tecweb/actividades/a09/product_app/backend/product';
         const method = edit ? 'PUT' : 'POST';
-
-        $.post(url, postData, (response) => {
-            console.log(response);
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-            let respuesta = JSON.parse(response);
-            // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-            let template_bar = '';
-            template_bar += `
-                        <li style="list-style: none;">status: ${respuesta.status}</li>
-                        <li style="list-style: none;">message: ${respuesta.message}</li>
-                    `;
-            // SE REINICIA EL FORMULARIO
-            $('#name').val('');
-            $('#description').val(JsonString);
-            // SE HACE VISIBLE LA BARRA DE ESTADO
-            $('#product-result').show();
-            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-            $('#container').html(template_bar);
-            // SE LISTAN TODOS LOS PRODUCTOS
-            listarProductos();
-            // SE REGRESA LA BANDERA DE EDICIÓN A false
-            edit = false;
-        });
-    });
-
-    $(document).on('click', '.product-delete', (e) => {
-        if(confirm('¿Realmente deseas eliminar el producto?')) {
-            const element = $(this)[0].activeElement.parentElement.parentElement;
-            const id = $(element).attr('productId');
-            $.post('./backend/product-delete.php', {id}, (response) => {
-                const result = JSON.parse(response);
-                let template_bar = `
-                    <li style="list-style-type:none;">status: ${result.status}</li>
-                    <li style="list-style-type:none;">message: ${result.message}</li>
-                `;
+    
+        $.ajax({
+            url,
+            method,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(postData),
+            success: (respuesta) => {
+                const template_bar = `
+                    <li style="list-style:none;">status: ${respuesta.status}</li>
+                    <li style="list-style:none;">message: ${respuesta.message}</li>`;
+                $('#name').val('');
+                $('#description').val(JSON.stringify(baseJSON, null, 2));
                 $('#product-result').show();
                 $('#container').html(template_bar);
                 listarProductos();
+                edit = false;
+            }
+        });
+    });
+
+    $(document).on('click', '.product-delete', () => {
+        if (confirm('¿Realmente deseas eliminar el producto?')) {
+            const element = $(this)[0].activeElement.parentElement.parentElement;
+            const id = $(element).attr('productId');
+    
+            $.ajax({
+                url: 'http://localhost/tecweb/actividades/a09/product_app/backend/product',
+                method: 'DELETE',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify({ id }),
+                success: (result) => {
+                    const template_bar = `
+                        <li style="list-style:none;">status: ${result.status}</li>
+                        <li style="list-style:none;">message: ${result.message}</li>`;
+                    $('#product-result').show();
+                    $('#container').html(template_bar);
+                    listarProductos();
+                }
             });
         }
     });
@@ -161,25 +162,24 @@ $(document).ready(function(){
     $(document).on('click', '.product-item', (e) => {
         const element = $(this)[0].activeElement.parentElement.parentElement;
         const id = $(element).attr('productId');
-        $.post('./backend/product-single.php', {id}, (response) => {
-            // SE CONVIERTE A OBJETO EL JSON OBTENIDO
-            let product = JSON.parse(response);
-            // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
-            $('#name').val(product.nombre);
-            // EL ID SE INSERTA EN UN CAMPO OCULTO PARA USARLO DESPUÉS PARA LA ACTUALIZACIÓN
-            $('#productId').val(product.id);
-            // SE ELIMINA nombre, eliminado E id PARA PODER MOSTRAR EL JSON EN EL <textarea>
-            delete(product.nombre);
-            delete(product.eliminado);
-            delete(product.id);
-            // SE CONVIERTE EL OBJETO JSON EN STRING
-            let JsonString = JSON.stringify(product,null,2);
-            // SE MUESTRA STRING EN EL <textarea>
-            $('#description').val(JsonString);
-            
-            // SE PONE LA BANDERA DE EDICIÓN EN true
-            edit = true;
+    
+        $.ajax({
+            url: 'http://localhost/tecweb/actividades/a09/product_app/backend/product/' + id,
+            method: 'GET',
+            dataType: 'json',
+            success: (product) => {
+                $('#name').val(product.nombre);
+                $('#productId').val(product.id);
+    
+                delete product.nombre;
+                delete product.eliminado;
+                delete product.id;
+    
+                $('#description').val(JSON.stringify(product, null, 2));
+                edit = true;
+            }
         });
         e.preventDefault();
-    });    
-});
+    });
+}
+);
